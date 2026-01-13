@@ -1,0 +1,14 @@
+<!-- Footer -->
+<footer class="footertext-body-secondary bg-body-tertiary py-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 text-lg-start">
+        Copyright &copy; <strong>{{ brandName|default('Your Company') }}</strong> {{ 'now'|date('Y') }}
+      </div>
+      <div class="col-lg-6 text-lg-end">
+        <a class="text-decoration-none me-3" href="{{ path('app_page', { slug: 'impressum' }) }}">Impressum</a>
+        <a class="text-decoration-none" href="{{ path('app_page', { slug: 'datenschutz' }) }}">Datenschutz</a>
+      </div>
+    </div>
+  </div>
+</footer>

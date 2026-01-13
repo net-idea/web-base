@@ -1,0 +1,60 @@
+{% extends 'email/base.html.twig' %}
+
+{% block title %}
+  Ihre Kontaktanfrage
+{% endblock %}
+
+{% block header_title %}
+  {{ siteName|default('Bestätigung Ihrer Anfrage') }}
+{% endblock %}
+
+{% block body %}
+  <h1>Vielen Dank für Ihre Nachricht!</h1>
+
+  <p>
+    Hallo {{ contact.name|e }},
+  </p>
+
+  <p>
+    vielen Dank für Ihre Kontaktanfrage über {{ siteName|default('unsere Website') }}. Wir haben Ihre Nachricht erhalten und werden uns so schnell wie möglich bei Ihnen melden.
+  </p>
+
+  <h2>Ihre Kontaktdaten</h2>
+  <div class="box">
+    <p style="margin:0 0 8px;">
+      <strong>Name:</strong> {{ contact.name|e }}
+    </p>
+    <p style="margin:0 0 8px;">
+      <strong>E‑Mail:</strong> {{ contact.emailAddress|e }}
+    </p>
+    {% if contact.phone %}
+      <p style="margin:0;">
+        <strong>Telefon:</strong> {{ contact.phone|e }}
+      </p>
+    {% endif %}
+  </div>
+
+  <h2>Ihre Nachricht</h2>
+  <div class="box">
+    {{ contact.messageHtml|raw }}
+  </div>
+
+  <div class="info-box">
+    <p style="margin:0;">
+      <strong>{{ siteName|default('Your Company') }}</strong><br />
+      Bei Rückfragen erreichen Sie uns unter:<br />
+      📧 <a href="mailto:{{ contactEmail|default('contact@example.com') }}">{{ contactEmail|default('contact@example.com') }}</a><br />
+      {% if contactPhone|default(false) %}☎️ <a href="tel:{{ contactPhone }}">{{ contactPhone }}</a><br />{% endif %}
+      {% if contactWebsite|default(false) %}🌐 <a href="{{ contactWebsite }}">{{ contactWebsite }}</a>{% endif %}
+    </p>
+  </div>
+
+  <p>
+    Beste Grüße<br />
+    Ihr {{ brandName|default('Team') }}
+  </p>
+
+  <p class="meta">
+    Dies ist eine automatische Bestätigung Ihrer Kontaktanfrage. Ihre Daten werden vertraulich behandelt und nur zum Zweck der Kontaktaufnahme verwendet. Bei Rückfragen können Sie direkt auf diese E‑Mail antworten.
+  </p>
+{% endblock %}

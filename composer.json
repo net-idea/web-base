@@ -1,0 +1,42 @@
+{
+  "name": "net-idea/web-base",
+  "description": "Shared library for Symfony-based websites - reusable backend and frontend code",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Adam Ibrom",
+      "email": "adam@net-i.de"
+    }
+  ],
+  "homepage": "https://github.com/net-idea/web-base",
+  "keywords": [
+    "symfony",
+    "library",
+    "reusable",
+    "web",
+    "bootstrap",
+    "twig"
+  ],
+  "require": {
+    "php": ">=8.2"
+  },
+  "suggest": {
+    "symfony/framework-bundle": "For using the Symfony components",
+    "doctrine/orm": "For using the entity classes",
+    "symfony/mailer": "For using the mail service"
+  },
+  "autoload": {
+    "psr-4": {
+      "NetIdea\\WebBase\\": "backend/src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "NetIdea\\WebBase\\Tests\\": "backend/tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

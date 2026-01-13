@@ -1,0 +1,77 @@
+/* ============================================================================
+   WebBase - Dark Theme Overrides
+   ============================================================================ */
+
+[data-bs-theme='dark'] {
+  // Navigation - Dark Theme
+  #main-nav {
+    .dropdown-menu {
+      background-color: #343a40;
+      border-color: #495057;
+
+      .dropdown-item {
+        color: #dee2e6;
+
+        &:hover,
+        &:focus {
+          background-color: #495057;
+          color: $brand-green-light;
+        }
+      }
+    }
+  }
+
+  // Form Controls - Dark Theme
+  .form-control,
+  .form-select {
+    background-color: #343a40;
+    color: #dee2e6;
+    border-color: #495057;
+
+    &:focus {
+      background-color: #2b3035;
+      color: #dee2e6;
+      border-color: $brand-green-light;
+      box-shadow: 0 0 0 0.25rem rgb(102 179 102 / 25%);
+    }
+
+    &::placeholder {
+      color: #adb5bd;
+      opacity: 0.7;
+    }
+  }
+
+  .form-label {
+    color: #dee2e6;
+  }
+
+  .invalid-feedback {
+    color: #ea868f;
+  }
+
+  .valid-feedback {
+    color: $brand-green-light;
+  }
+
+  // Headings - Dark Theme
+  h1,
+  h2,
+  h3,
+  h4,
+  .h1,
+  .h2,
+  .h3,
+  .h4 {
+    color: $brand-green-primary;
+    text-shadow:
+      0 1px 0 #23272a,
+      0 2px 8px #0008;
+  }
+
+  // Body - Dark Theme
+  body,
+  .text-body {
+    color: $text-color-dark;
+    background: #23272a;
+  }
+}

@@ -1,52 +1,50 @@
-# Cache and logs (Symfony2)
-/app/cache/*
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
+# Composer dependencies
+/backend/vendor/
+/composer.phar
+/composer.lock
 
-# Email spool folder
-/app/spool/*
+# Yarn/NPM dependencies
+/frontend/node_modules/
+/frontend/yarn.lock
+/frontend/package-lock.json
 
-# Cache, session files and logs (Symfony3)
-/var/cache/*
-/var/logs/*
-/var/sessions/*
-!var/cache/.gitkeep
-!var/logs/.gitkeep
-!var/sessions/.gitkeep
+# Build artifacts
+/backend/var/
+/build/
+/dist/
+/public/build/
 
-# Logs (Symfony4)
-/var/log/*
-!var/log/.gitkeep
+# Logs
+*.log
+/backend/var/log/*
 
-# Parameters
-/app/config/parameters.yml
-/app/config/parameters.ini
-
-# Managed by Composer
-/app/bootstrap.php.cache
-/var/bootstrap.php.cache
-/bin/*
-!bin/console
-!bin/symfony_requirements
-/vendor/
-
-# Assets and user uploads
-/web/bundles/
-/web/uploads/
+# Cache
+/backend/var/cache/*
 
 # PHPUnit
-/app/phpunit.xml
-/phpunit.xml
+/backend/phpunit.xml
+/.phpunit.result.cache
+/backend/.phpunit.result.cache
 
-# Build data
-/build/
+# Keep empty directories
+!.gitkeep
 
-# Composer PHAR
-/composer.phar
+# IDE
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
 
-# Backup entities generated with doctrine:generate:entities command
-**/Entity/*~
+# OS
+.DS_Store
+Thumbs.db
 
-# Embedded web-server pid file
-/.web-server-pid
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+/tmp/
+*.tmp
