@@ -1,0 +1,89 @@
+{# SEO constants and computed values - Override these in your project's base template #}
+{% set baseUrl = app.request.schemeAndHttpHost %}
+{% set brandName = brandName|default('Your Brand') %}
+{% set siteName = siteName|default('Your Site Name') %}
+{% set defaultDescription = defaultDescription|default('Your default site description') %}
+{% set defaultKeywords = defaultKeywords|default('your, keywords, here') %}
+{% set effectiveSlug = slug|default('start') %}
+{% set computedCanonical = effectiveSlug in ['', 'start', 'main'] ? '/' : '/' ~ effectiveSlug %}
+{% set canonicalPath = pageMeta.canonical|default(computedCanonical) %}
+{% set pageDesc = pageMeta.description|default(defaultDescription) %}
+{% set pageKeywords = pageMeta.keywords|default(defaultKeywords) %}
+{% set robots = pageMeta.robots|default('index,follow') %}
+{% set ogImagePath = pageMeta.og_image|default('/assets/og/start.jpg') %}
+{% set absolutCanonical = baseUrl ~ canonicalPath %}
+{% set absolutOgImage = baseUrl ~ ogImagePath %}
+{% set fullTitle = pageMeta.title|default(siteName) %}
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+      {{ company }}{% if block('title') is defined %} — {% block title %}{% endblock %}{% else %}{{ fullTitle }}{% endif %}
+    </title>
+
+    <meta name="description" content="{{ pageDesc }}" />
+    <meta name="keywords" content="{{ pageKeywords }}" />
+    <meta name="robots" content="{{ robots }}" />
+
+    <link rel="canonical" href="{{ absolutCanonical }}" />
+
+    {# Open Graph #}
+    <meta property="og:site_name" content="{{ siteName }}" />
+    <meta property="og:title" content="{{ fullTitle }}" />
+    <meta property="og:description" content="{{ pageDesc }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ absolutCanonical }}" />
+    <meta property="og:image" content="{{ absolutOgImage }}" />
+    <meta property="og:locale" content="de_DE" />
+
+    {# Twitter Card #}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ fullTitle }}" />
+    <meta name="twitter:description" content="{{ pageDesc }}" />
+    <meta name="twitter:image" content="{{ absolutOgImage }}" />
+
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}" />
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any" />
+
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+  </head>
+  <body id="page-top">
+    {% include '_partials/navbar.html.twig' %}
+
+    {% block masthead %}
+      <!-- Masthead -->
+      <header class="masthead" style="background-image: url('{{ asset('images/header-bg.jpg') }}');">
+        <div class="container">
+          <div class="masthead-subheading">
+            Wir bieten den Service für einzigartige Ideen
+          </div>
+          <div class="masthead-heading text-uppercase">
+            Unique Surfing!
+          </div>
+          <a class="btn btn-primary btn-xl text-uppercase" href="/services">Unsere Services</a>
+        </div>
+      </header>
+    {% endblock %}
+
+    {% block body %}
+      <section class="page-section">
+        <div class="container">
+          {% block content %}
+
+          {% endblock %}
+        </div>
+      </section>
+    {% endblock %}
+
+    {% include '_partials/footer.html.twig' %}
+  </body>
+
+  {% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+  {% endblock %}
+</html>

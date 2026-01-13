@@ -1,0 +1,50 @@
+# Composer dependencies
+/backend/vendor/
+/composer.phar
+/composer.lock
+
+# Yarn/NPM dependencies
+/frontend/node_modules/
+/frontend/yarn.lock
+/frontend/package-lock.json
+
+# Build artifacts
+/backend/var/
+/build/
+/dist/
+/public/build/
+
+# Logs
+*.log
+/backend/var/log/*
+
+# Cache
+/backend/var/cache/*
+
+# PHPUnit
+/backend/phpunit.xml
+/.phpunit.result.cache
+/backend/.phpunit.result.cache
+
+# Keep empty directories
+!.gitkeep
+
+# IDE
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+/tmp/
+*.tmp

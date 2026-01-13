@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="main-nav">
+  <div class="container">
+    <a class="navbar-brand" href="/"><img src="{{ asset(brandLogo|default('/images/logo.png')) }}" alt="{{ brandName|default('Logo') }}" /></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu <i class="fas fa-bars ms-1"></i></button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+        {% for item in navItems|default([]) %}
+          <li class="nav-item"><a class="nav-link" href="{{ item.url }}">{{ item.label }}</a></li>
+        {% endfor %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-adjust"></i></a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="themeDropdown">
+            <li><button class="dropdown-item" type="button" data-theme="light"><i class="fas fa-sun me-2"></i>Hell</button></li>
+            <li><button class="dropdown-item" type="button" data-theme="dark"><i class="fas fa-moon me-2"></i>Dunkel</button></li>
+            <li><button class="dropdown-item" type="button" data-theme="system"><i class="fas fa-desktop me-2"></i>System</button></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

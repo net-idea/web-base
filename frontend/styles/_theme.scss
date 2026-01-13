@@ -1,0 +1,390 @@
+/* ============================================================================
+   WebBase - Theme Components
+   ============================================================================ */
+
+// =============================
+// Headings & Text
+// =============================
+h1,
+.h1 {
+  font-size: $font-size-h1;
+  font-weight: $heading-font-weight;
+  color: $heading-color;
+  letter-spacing: $heading-letter-spacing;
+  line-height: $line-height-heading;
+  margin-top: $heading-margin-top;
+  margin-bottom: $heading-margin-bottom;
+  font-family: $font-family-primary;
+}
+
+h2,
+.h2 {
+  font-size: $font-size-h2;
+  font-weight: $heading-font-weight;
+  color: $heading-color;
+  letter-spacing: $heading-letter-spacing;
+  line-height: $line-height-heading;
+  margin-top: $heading-margin-top;
+  margin-bottom: $heading-margin-bottom;
+  font-family: $font-family-primary;
+}
+
+h3,
+.h3 {
+  font-size: $font-size-h3;
+  font-weight: 700;
+  color: $heading-color;
+  letter-spacing: 0;
+  line-height: 1.22;
+  margin-top: $heading-margin-top;
+  margin-bottom: $heading-margin-bottom-small;
+  font-family: $font-family-primary;
+}
+
+h4,
+.h4 {
+  font-size: $font-size-h4;
+  font-weight: 600;
+  color: $heading-color;
+  margin-top: $heading-margin-top;
+  margin-bottom: $heading-margin-bottom-small;
+  font-family: $font-family-primary;
+}
+
+body,
+.text-body {
+  color: $text-color;
+  font-size: $font-size-base;
+  font-family: $font-family-primary;
+  line-height: $text-line-height;
+  font-weight: $text-font-weight;
+  width: 100%;
+  max-width: 100%;
+}
+
+// A wrapper to limit long lines of text for better readability
+// Use this sparingly - prefer Bootstrap containers
+.content-narrow {
+  max-width: $text-max-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Ensure paragraphs and lists inside cards don't get max-width
+.page-section-card p,
+.page-section-card ul,
+.page-section-card ol {
+  max-width: none;
+}
+
+// Typography spacing - use Bootstrap defaults
+p {
+  margin-bottom: 1rem;
+  line-height: $text-line-height;
+}
+
+ul,
+ol {
+  margin-bottom: 1rem;
+}
+
+// ============================================================================
+// Buttons
+// ============================================================================
+.btn-xl {
+  padding: $btn-xl-padding;
+  font-family: $font-family-primary;
+  font-size: $btn-xl-font-size;
+  font-weight: 700;
+}
+
+.btn-social {
+  height: $btn-social-size;
+  width: $btn-social-size;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 100%;
+}
+
+/* Icons inside buttons follow text color (except WhatsApp brand icon) */
+.btn:not(.contact-whatsapp) svg,
+.btn:not(.contact-whatsapp) svg * {
+  fill: currentcolor;
+}
+
+/* WhatsApp icon sizing (applies to both themes) */
+a[href^='https://wa.me/'] svg {
+  height: 2em;
+  width: auto;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+/* Selection colors per theme for readability */
+[data-bs-theme='light'] ::selection {
+  background-color: #0ea5e9;
+  color: #fff;
+}
+
+// ============================================================================
+// Navigation
+// ============================================================================
+#main-nav {
+  padding: $nav-padding-y 0;
+  background-color: rgb(67 67 67 / 70%);
+  border-bottom: 2px solid rgb(216 213 213 / 14%);
+  backdrop-filter: blur(7px) saturate(180%);
+  position: sticky;
+  top: 0;
+  z-index: 1040;
+
+  .navbar-toggler {
+    padding: $nav-toggler-padding;
+    font-size: $nav-toggler-font-size;
+    font-family: $font-family-primary;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .navbar-brand {
+    color: $brand-green-primary;
+    font-family: $font-family-primary;
+    font-weight: 700;
+    letter-spacing: $nav-link-letter-spacing;
+    text-transform: uppercase;
+
+    img {
+      height: $nav-logo-height;
+    }
+  }
+
+  .navbar-nav .nav-item .nav-link {
+    font-family: $font-family-primary;
+    font-size: $nav-link-font-size;
+    letter-spacing: $nav-link-letter-spacing;
+    text-transform: uppercase;
+    padding: 0.65rem 0.9rem;
+    border-radius: 0.85rem;
+    position: relative;
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease,
+      transform 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0.9rem;
+      right: 0.9rem;
+      bottom: 0.4rem;
+      height: 2px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left;
+      opacity: 0.55;
+      transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+    }
+
+    &.active,
+    &:hover {
+      background-color: rgb(255 255 255 / 7%);
+      color: $navbar-color-hover;
+    }
+
+    &.active::after,
+    &:hover::after {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+}
+
+// Desktop Navigation
+@media (min-width: 992px) {
+  #main-nav {
+    padding: $nav-padding-y-lg 0;
+    transition: padding #{$nav-transition-speed} ease-in-out;
+
+    .navbar-brand {
+      font-size: 1.5em;
+      transition: font-size #{$nav-transition-speed} ease-in-out;
+
+      img {
+        height: $nav-logo-height-lg;
+        transition: height #{$nav-transition-speed} ease-in-out;
+      }
+    }
+
+    &.navbar-shrink {
+      padding: $nav-padding-y-shrink 0;
+      margin: 0.35rem auto;
+
+      .navbar-brand {
+        font-size: 1.1em;
+
+        svg,
+        img {
+          height: $nav-logo-height-shrink;
+        }
+      }
+    }
+
+    .navbar-nav .nav-item {
+      margin-right: $nav-item-margin-right;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// Masthead
+// ============================================================================
+header.masthead {
+  padding: $masthead-padding-y;
+  text-align: center;
+  color: #fff;
+
+  /* background-image removed: masthead image set inline in base template to ensure correct asset path */
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+  position: relative;
+
+  // Overlay for better readability on varying background images
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(900px 420px at 50% 35%, rgb(0 128 0 / 22%), transparent 60%),
+      linear-gradient(180deg, rgb(0 0 0 / 62%) 0%, rgb(0 0 0 / 35%) 55%, rgb(0 0 0 / 70%) 100%);
+  }
+
+  > .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .masthead-subheading {
+    font-size: $masthead-subheading-font-size;
+    font-style: italic;
+    line-height: $masthead-subheading-font-size;
+    margin-bottom: $masthead-subheading-margin-bottom;
+    font-family: $font-family-secondary;
+    text-shadow: 0 2px 18px rgb(0 0 0 / 35%);
+  }
+
+  .masthead-heading {
+    font-size: $masthead-heading-font-size;
+    font-weight: 700;
+    line-height: $masthead-heading-font-size;
+    margin-bottom: $masthead-heading-margin-bottom;
+    font-family: $font-family-primary;
+    text-shadow: 0 2px 22px rgb(0 0 0 / 45%);
+  }
+
+  .lead {
+    max-width: 54rem;
+    text-shadow: 0 2px 16px rgb(0 0 0 / 35%);
+  }
+}
+
+@media (min-width: 768px) {
+  header.masthead {
+    padding: $masthead-padding-y-md;
+
+    .masthead-subheading {
+      font-size: $masthead-subheading-font-size-md;
+      line-height: $masthead-subheading-font-size-md;
+      margin-bottom: $masthead-subheading-margin-bottom-md;
+    }
+
+    .masthead-heading {
+      font-size: $masthead-heading-font-size-md;
+      line-height: $masthead-heading-font-size-md;
+      margin-bottom: $masthead-heading-margin-bottom-md;
+    }
+  }
+}
+
+// ============================================================================
+// Footer
+// ============================================================================
+.footer {
+  text-align: center;
+  font-size: $footer-font-size;
+  font-family: $font-family-primary;
+}
+
+// Mobile adjustments: reduce heading sizes and allow wrapping so long words don't get cut off
+@media (max-width: 767.98px) {
+  /* Reduce heading sizes for small screens */
+  h1,
+  .h1 {
+    font-size: 1.6rem;
+    line-height: 1.15;
+  }
+
+  h2,
+  .h2 {
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+
+  h3,
+  .h3 {
+    font-size: 1.125rem;
+    line-height: 1.2;
+  }
+
+  h4,
+  .h4 {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  /* Masthead specific adjustments */
+  header.masthead {
+    .masthead-heading {
+      font-size: 1.6rem;
+      line-height: 1.15;
+    }
+
+    .masthead-subheading {
+      font-size: 1rem;
+      line-height: 1.15;
+    }
+
+    .lead {
+      font-size: 0.95rem;
+    }
+  }
+
+  /* Ensure long words can wrap and hyphenate if supported */
+  h1,
+  h2,
+  h3,
+  h4,
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .masthead-heading,
+  .masthead-subheading {
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Slightly reduce navbar brand on very small screens to help space */
+  #main-nav .navbar-brand {
+    font-size: 1rem;
+  }
+}

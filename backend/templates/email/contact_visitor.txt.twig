@@ -1,0 +1,22 @@
+{% block subject %}
+Ihre Anfrage bei {{ siteName|default('uns') }}
+{% endblock %}
+
+{% block body %}
+Guten Tag {{ contact.name }},
+
+vielen Dank für Ihre Nachricht an {{ siteName|default('uns') }}.
+
+Wir haben Ihre Anfrage erhalten und werden sie so schnell wie möglich bearbeiten. Einer unserer Mitarbeiter wird sich persönlich bei Ihnen melden.
+
+Hier ist eine Kopie Ihrer Nachricht:
+
+--------------------------------------------------
+{{ contact.message }}
+--------------------------------------------------
+
+Beste Grüße,
+
+Ihr {{ brandName|default('Team') }}
+{% if contactWebsite|default(false) %}Web: {{ contactWebsite }}{% endif %}
+{% endblock %}

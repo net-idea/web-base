@@ -1,0 +1,47 @@
+/* ============================================================================
+   WebBase - Form Styles
+   ============================================================================ */
+
+// ============================================================================
+// Form Controls
+// ============================================================================
+.form-control,
+.form-select {
+  border-radius: $form-control-border-radius;
+  padding: $form-control-padding;
+  font-size: $form-control-font-size;
+  transition: $form-control-transition;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.form-label {
+  margin-bottom: $form-label-margin-bottom;
+  font-weight: $form-label-font-weight;
+}
+
+.form-group {
+  margin-bottom: $form-group-margin-bottom;
+}
+
+// ============================================================================
+// Form Validation
+// ============================================================================
+.was-validated .form-control:valid,
+.form-control.is-valid {
+  border-color: var(--bs-success);
+}
+
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+  border-color: var(--bs-danger);
+}
+
+.invalid-feedback,
+.valid-feedback {
+  display: block;
+  margin-top: $form-feedback-margin-top;
+  font-size: $form-feedback-font-size;
+}

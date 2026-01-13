@@ -1,0 +1,26 @@
+{% block subject %}
+Anfrage via {{ siteName|default('Website') }} von {{ contact.name }}
+{% endblock %}
+
+{% block body %}
+Guten Tag,
+
+es ist eine neue Kontaktanfrage über die Webseite eingegangen.
+
+Absender:
+
+Name: {{ contact.name }}
+E-Mail: {{ contact.emailAddress }}
+{% if contact.phone %}Telefon: {{ contact.phone }}{% endif %}
+
+Nachricht:
+
+--------------------------------------------------
+{{ contact.message }}
+--------------------------------------------------
+
+Bitte zeitnah bearbeiten.
+
+Beste Grüße,
+Ihr {{ brandName|default('Website') }} System
+{% endblock %}
