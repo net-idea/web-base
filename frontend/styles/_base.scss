@@ -1,0 +1,160 @@
+/* ============================================================================
+   NetIdea WebBase Bundle - Base Styles (White Label)
+   Basic element styling, spacing, typography, layout
+   ============================================================================ */
+
+// ============================================================================
+// Global Reset & Base
+// ============================================================================
+body {
+  margin: 0;
+  padding-top: 0;
+}
+
+// ============================================================================
+// Masthead/Header Base
+// ============================================================================
+.masthead {
+  position: relative;
+  padding: 4rem 0;
+  text-align: center;
+  background-color: $masthead-bg;
+  color: $masthead-text-color;
+
+  @media (min-width: 768px) {
+    padding: 6rem 0;
+  }
+
+  @media (min-width: 992px) {
+    padding: 8rem 0;
+  }
+
+  h1,
+  .display-4 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+
+  .masthead-subheading {
+    font-size: 1.5rem;
+    font-style: italic;
+    line-height: 1.5rem;
+    margin-bottom: 25px;
+    font-family: $font-family-base;
+  }
+
+  .masthead-heading {
+    font-size: 3.25rem;
+    font-weight: 700;
+    line-height: 3.25rem;
+    margin-bottom: 2rem;
+    font-family: $font-family-base;
+  }
+}
+
+// ============================================================================
+// Navigation Base
+// ============================================================================
+.navbar {
+  position: relative;
+  transition: padding 0.3s ease;
+
+  &.navbar-shrink {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar-brand {
+    img {
+      max-height: 40px;
+      width: auto;
+    }
+  }
+}
+
+// ============================================================================
+// Footer Base
+// ============================================================================
+.footer {
+  margin-top: auto;
+
+  a {
+    transition: color 0.15s ease-in-out;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+// ============================================================================
+// Cards Base
+// ============================================================================
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+}
+
+// ============================================================================
+// Buttons Extensions
+// ============================================================================
+.btn-xl {
+  padding: 1.25rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// ============================================================================
+// Utility Classes
+// ============================================================================
+.text-shadow {
+  text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
+}
+
+.bg-gradient {
+  background: linear-gradient(135deg, $primary 0%, darken($primary, 15%) 100%);
+}
+
+// ============================================================================
+// Spacing Helpers (extend Bootstrap)
+// ============================================================================
+.vstack {
+  display: flex;
+  flex-direction: column;
+}
+
+// ============================================================================
+// Mobile Responsive Adjustments
+// ============================================================================
+@media (max-width: 767.98px) {
+  .masthead {
+    padding: 3rem 0;
+
+    .masthead-heading {
+      font-size: 2rem;
+      line-height: 2rem;
+    }
+
+    .masthead-subheading {
+      font-size: 1.25rem;
+      line-height: 1.25rem;
+    }
+  }
+
+  .btn-xl {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}

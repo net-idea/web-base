@@ -1,0 +1,44 @@
+{
+  "name": "net-idea/web-base",
+  "description": "Reusable Symfony bundle for website fundamentals - controllers, services, templates, and frontend assets",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Adam Ibrom",
+      "email": "adam@net-i.de"
+    }
+  ],
+  "homepage": "https://github.com/net-idea/web-base",
+  "keywords": [
+    "symfony",
+    "bundle",
+    "reusable",
+    "web",
+    "bootstrap",
+    "twig"
+  ],
+  "require": {
+    "php": ">=8.2",
+    "symfony/framework-bundle": "^6.4|^7.0|^8.0",
+    "symfony/twig-bundle": "^6.4|^7.0|^8.0"
+  },
+  "suggest": {
+    "doctrine/orm": "For using the entity classes",
+    "symfony/mailer": "For using the mail service",
+    "erusev/parsedown": "For Markdown content rendering"
+  },
+  "autoload": {
+    "psr-4": {
+      "NetIdea\\WebBase\\": "backend/src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "NetIdea\\WebBase\\Tests\\": "backend/tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

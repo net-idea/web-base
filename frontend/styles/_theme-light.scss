@@ -1,0 +1,41 @@
+/* ============================================================================
+   NetIdea WebBase Bundle - Light Theme
+   Colors and styles for light mode
+   ============================================================================ */
+
+[data-bs-theme='light'] {
+  // Background colors
+  --bs-body-bg: #ffffff;
+  --bs-body-color: #212529;
+
+  // Navbar
+  .navbar {
+    &.navbar-dark {
+      background-color: #212529;
+    }
+  }
+
+  // Masthead
+  .masthead {
+    background-color: $primary;
+    color: white;
+  }
+
+  // Cards
+  .card {
+    background-color: #ffffff;
+    border-color: rgba(0, 0, 0, 0.125);
+  }
+
+  // Footer
+  .footer {
+    background-color: #f8f9fa;
+    color: #212529;
+  }
+}
+
+// Default light theme (when no data-bs-theme is set)
+:root:not([data-bs-theme]),
+:root[data-bs-theme='light'] {
+  color-scheme: light;
+}

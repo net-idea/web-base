@@ -1,0 +1,54 @@
+/* ============================================================================
+   NetIdea WebBase Bundle - Dark Theme
+   Colors and styles for dark mode
+   ============================================================================ */
+
+[data-bs-theme='dark'] {
+  // Background colors
+  --bs-body-bg: #212529;
+  --bs-body-color: #dee2e6;
+
+  // Navbar
+  .navbar {
+    &.navbar-dark {
+      background-color: #1a1d20;
+    }
+  }
+
+  // Masthead
+  .masthead {
+    background-color: darken($primary, 10%);
+    color: white;
+  }
+
+  // Cards
+  .card {
+    background-color: #2b3035;
+    border-color: rgba(255, 255, 255, 0.125);
+    color: #dee2e6;
+  }
+
+  // Footer
+  .footer {
+    background-color: #1a1d20;
+    color: #dee2e6;
+  }
+
+  // Links
+  a {
+    color: lighten($primary, 20%);
+
+    &:hover {
+      color: lighten($primary, 30%);
+    }
+  }
+
+  // Text colors
+  .text-muted {
+    color: #6c757d !important;
+  }
+}
+
+:root[data-bs-theme='dark'] {
+  color-scheme: dark;
+}

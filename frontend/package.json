@@ -1,0 +1,26 @@
+{
+  "name": "@net-idea/web-base-frontend",
+  "version": "1.0.0",
+  "description": "Shared frontend library for Symfony projects - reusable TypeScript and SCSS components",
+  "author": "Adam Ibrom <adam@net-i.de>",
+  "license": "MIT",
+  "type": "module",
+  "main": "scripts/index.ts",
+  "files": [
+    "scripts/**/*",
+    "styles/**/*"
+  ],
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@symfony/stimulus-bridge": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.0",
+    "bootstrap": "^5.3.0",
+    "sass": "^1.69.0",
+    "typescript": "^5.3.0"
+  },
+  "peerDependencies": {
+    "bootstrap": "^5.3.0"
+  }
+}

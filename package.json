@@ -1,0 +1,28 @@
+{
+  "name": "@net-idea/web-base",
+  "version": "1.0.0",
+  "description": "Shared library for Symfony-based websites - reusable backend and frontend code",
+  "author": "net-idea <adam@net-i.de>",
+  "license": "MIT",
+  "homepage": "https://github.com/net-idea/web-base",
+  "keywords": [
+    "symfony",
+    "typescript",
+    "scss",
+    "bootstrap",
+    "web",
+    "library"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/net-idea/web-base"
+  },
+  "main": "frontend/scripts/index.ts",
+  "files": [
+    "backend/",
+    "frontend/"
+  ],
+  "devDependencies": {
+    "@types/minimatch": "^6.0.0"
+  }
+}

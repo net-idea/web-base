@@ -1,0 +1,80 @@
+/* ============================================================================
+   NetIdea WebBase Bundle - SCSS Variables (White Label)
+   Override these variables in your project's main SCSS file BEFORE importing
+   ============================================================================ */
+
+// ============================================================================
+// Brand Colors - Customize for your project
+// ============================================================================
+$primary: #0d6efd !default;
+$secondary: #6c757d !default;
+$success: #198754 !default;
+$info: #0dcaf0 !default;
+$warning: #ffc107 !default;
+$danger: #dc3545 !default;
+$light: #f8f9fa !default;
+$dark: #212529 !default;
+
+// ============================================================================
+// Bootstrap Configuration
+// ============================================================================
+$enable-shadows: false !default;
+$enable-gradients: false !default;
+$enable-rounded: true !default;
+
+// Border Radius
+$border-radius: 0.375rem !default;
+$border-radius-sm: 0.25rem !default;
+$border-radius-lg: 0.5rem !default;
+
+// ============================================================================
+// Typography
+// ============================================================================
+$font-family-sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !default;
+$font-family-base: $font-family-sans-serif !default;
+
+$font-size-base: 1rem !default;
+$line-height-base: 1.5 !default;
+
+// Headings
+$headings-font-weight: 700 !default;
+$headings-line-height: 1.2 !default;
+
+// ============================================================================
+// Spacing
+// ============================================================================
+$spacer: 1rem !default;
+
+// ============================================================================
+// Components
+// ============================================================================
+
+// Navbar
+$navbar-dark-color: rgba(255, 255, 255, 0.85) !default;
+$navbar-dark-hover-color: rgba(255, 255, 255, 1) !default;
+$navbar-dark-active-color: rgba(255, 255, 255, 1) !default;
+
+// Cards
+$card-border-color: rgba(0, 0, 0, 0.125) !default;
+$card-cap-bg: rgba(0, 0, 0, 0.03) !default;
+
+// Forms
+$input-border-color: #ced4da !default;
+$input-focus-border-color: #86b7fe !default;
+
+// Buttons
+$btn-padding-y: 0.375rem !default;
+$btn-padding-x: 0.75rem !default;
+$btn-font-weight: 400 !default;
+
+// ============================================================================
+// Custom Variables (not Bootstrap)
+// ============================================================================
+
+// Masthead
+$masthead-bg: $primary !default;
+$masthead-text-color: white !default;
+
+// Footer
+$footer-bg: $light !default;
+$footer-text-color: $dark !default;

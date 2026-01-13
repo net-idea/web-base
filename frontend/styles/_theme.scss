@@ -1,0 +1,60 @@
+/* ============================================================================
+   NetIdea WebBase Bundle - Theme System
+   Main theme file that imports light and dark variants
+   ============================================================================ */
+
+// Import theme variants
+@import 'theme-light';
+@import 'theme-dark';
+
+// ============================================================================
+// Theme Toggle Button
+// ============================================================================
+#theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: inherit;
+
+  i {
+    font-size: 1.25rem;
+  }
+
+  #theme-icon-light {
+    display: none;
+  }
+
+  #theme-icon-dark {
+    display: inline-block;
+  }
+}
+
+// Theme-specific icon visibility
+[data-bs-theme='dark'] {
+  #theme-toggle {
+    #theme-icon-light {
+      display: inline-block;
+    }
+
+    #theme-icon-dark {
+      display: none;
+    }
+  }
+}
+
+// ============================================================================
+// Smooth Theme Transitions
+// ============================================================================
+body,
+.navbar,
+.card,
+.footer,
+.btn,
+.form-control,
+.form-select {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}

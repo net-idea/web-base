@@ -1,0 +1,91 @@
+{# NetIdea WebBase Bundle - Base Template (White Label)
+   Override this template in your project: templates/base.html.twig
+#}
+<!DOCTYPE html>
+<html lang="{{ site.language|default('de') }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {# SEO Meta Tags - Configurable via bundle configuration #}
+    {% set effectiveSlug = slug|default('start') %}
+    {% set computedCanonical = effectiveSlug in ['', 'start', 'main'] ? '/' : '/' ~ effectiveSlug %}
+    {% set canonicalPath = pageMeta.canonical|default(computedCanonical) %}
+    {% set pageDesc = pageMeta.description|default(defaultDescription) %}
+    {% set pageKeywords = pageMeta.keywords|default(defaultKeywords) %}
+    {% set robots = pageMeta.robots|default('index,follow') %}
+    {% set ogImagePath = pageMeta.og_image|default('/assets/og/default.jpg') %}
+    {% set absolutCanonical = baseUrl ~ canonicalPath %}
+    {% set absolutOgImage = baseUrl ~ ogImagePath %}
+    {% set fullTitle = pageMeta.title|default(siteName) %}
+
+    <title>{{ fullTitle }}</title>
+
+    <meta name="description" content="{{ pageDesc }}" />
+    <meta name="keywords" content="{{ pageKeywords }}" />
+    <meta name="robots" content="{{ robots }}" />
+    <link rel="canonical" href="{{ absolutCanonical }}" />
+
+    {# Open Graph #}
+    <meta property="og:site_name" content="{{ siteName }}" />
+    <meta property="og:title" content="{{ fullTitle }}" />
+    <meta property="og:description" content="{{ pageDesc }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ absolutCanonical }}" />
+    <meta property="og:image" content="{{ absolutOgImage }}" />
+    <meta property="og:locale" content="{{ site.locale|default('de_DE') }}" />
+
+    {# Twitter Card #}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ fullTitle }}" />
+    <meta name="twitter:description" content="{{ pageDesc }}" />
+    <meta name="twitter:image" content="{{ absolutOgImage }}" />
+
+    {# Favicon - Override in your project #}
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}" />
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any" />
+
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+  </head>
+
+  <body id="page-top" class="d-flex flex-column min-vh-100">
+    {# Navigation - Include from partial #}
+    {% block navigation %}
+      {% include '@NetIdeaWebBase/_partials/navbar.html.twig' %}
+    {% endblock %}
+
+    {# Optional Masthead/Hero Section #}
+    {% block masthead %}
+      <header class="masthead text-white text-center py-5">
+        <div class="container">
+          <h1 class="display-4">{{ brandName }}</h1>
+          {% if company.tagline %}
+            <p class="lead">{{ company.tagline }}</p>
+          {% endif %}
+        </div>
+      </header>
+    {% endblock %}
+
+    {# Main Content Area #}
+    {% block body %}
+      <main class="flex-grow-1 py-5">
+        <div class="container">
+          {% block content %}
+            {# Override this block in your page templates #}
+          {% endblock %}
+        </div>
+      </main>
+    {% endblock %}
+
+    {# Footer - Include from partial #}
+    {% block footer %}
+      {% include '@NetIdeaWebBase/_partials/footer.html.twig' %}
+    {% endblock %}
+
+    {% block javascripts %}
+      {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+  </body>
+</html>

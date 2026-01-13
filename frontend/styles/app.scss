@@ -1,0 +1,111 @@
+/* ============================================================================
+   NetIdea WebBase Bundle - Main Stylesheet (White Label)
+   Override in your project: assets/styles/app.scss
+   ============================================================================ */
+
+// 1. Import custom variables first (before Bootstrap)
+@import 'variables';
+
+// 2. Import Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// 3. Import Font Awesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+
+// 4. Import base styles (spacing, typography, layout)
+@import 'base';
+
+// 5. Import theme system (light/dark mode)
+@import 'theme';
+
+// 6. Import form styles (light/dark mode)
+@import 'forms';
+
+// Polished defaults for layout, typography, and key sections.
+:root {
+  --wb-accent: #4f46e5;
+  --wb-accent-dark: #4338ca;
+  --wb-ink: #0f172a;
+  --wb-muted: #64748b;
+  --wb-surface: #ffffff;
+  --wb-bg: #f8fafc;
+  --wb-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+}
+
+body {
+  background-color: var(--wb-bg);
+  color: var(--wb-ink);
+  line-height: 1.7;
+}
+
+a {
+  color: var(--wb-accent);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: var(--wb-accent-dark);
+  text-decoration: underline;
+}
+
+.navbar {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+}
+
+.masthead {
+  background: var(--wb-gradient);
+  color: #ffffff;
+}
+
+.masthead .display-4 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section-muted {
+  background-color: #f1f5f9;
+}
+
+.card {
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+}
+
+.card .card-title {
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-image: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  border: none;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-image: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+}
+
+.footer {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+.footer a {
+  color: #e2e8f0;
+}
+
+.footer a:hover,
+.footer a:focus {
+  color: #ffffff;
+}
