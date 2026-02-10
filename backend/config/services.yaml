@@ -1,0 +1,62 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  # Register all classes from backend/src as services
+  NetIdea\WebBase\:
+    resource: '../src/'
+    exclude:
+      - '../src/Entity/'
+      - '../src/NetIdeaWebBaseBundle.php'
+
+  # Controllers need to be public for the router
+  NetIdea\WebBase\Controller\:
+    resource: '../src/Controller/'
+    tags: ['controller.service_arguments']
+
+  # MailManService with configured mail parameters
+  NetIdea\WebBase\Service\MailManService:
+    arguments:
+      $fromAddress: '%web_base.mail.from_address%'
+      $fromName: '%web_base.mail.from_name%'
+      $toAddress: '%web_base.mail.to_address%'
+      $toName: '%web_base.mail.to_name%'
+
+  # Twig Extension for global variables
+  NetIdea\WebBase\Twig\WebBaseExtension:
+    arguments:
+      $company:
+        name: '%web_base.company.name%'
+        legal_name: '%web_base.company.legal_name%'
+        tagline: '%web_base.company.tagline%'
+        email: '%web_base.company.email%'
+        phone: '%web_base.company.phone%'
+        fax: '%web_base.company.fax%'
+        street: '%web_base.company.street%'
+        zip: '%web_base.company.zip%'
+        city: '%web_base.company.city%'
+        country: '%web_base.company.country%'
+        vat_id: '%web_base.company.vat_id%'
+        tax_number: '%web_base.company.tax_number%'
+        register_court: '%web_base.company.register_court%'
+        register_number: '%web_base.company.register_number%'
+        ceo: '%web_base.company.ceo%'
+        responsible_person: '%web_base.company.responsible_person%'
+      $site:
+        base_url: '%web_base.site.base_url%'
+        brand_name: '%web_base.site.brand_name%'
+        site_name: '%web_base.site.site_name%'
+        default_description: '%web_base.site.default_description%'
+        default_keywords: '%web_base.site.default_keywords%'
+        locale: '%web_base.site.locale%'
+        language: '%web_base.site.language%'
+      $social:
+        facebook: '%web_base.social.facebook%'
+        instagram: '%web_base.social.instagram%'
+        twitter: '%web_base.social.twitter%'
+        linkedin: '%web_base.social.linkedin%'
+        youtube: '%web_base.social.youtube%'
+        github: '%web_base.social.github%'
+    tags: ['twig.extension']

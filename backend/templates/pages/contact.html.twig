@@ -1,100 +1,82 @@
-{% extends 'base.html.twig' %}
+{# NetIdea WebBase Bundle - Contact Page (White Label)
+   Override in your project: templates/pages/kontakt.html.twig
+#}
+{% extends '@NetIdeaWebBase/base.html.twig' %}
 
-{% block body %}
-  <section class="py-5" id="contact">
+{% block masthead %}
+  <header class="masthead bg-primary text-white text-center py-5">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="text-center mb-5">
-            <h2 class="section-heading text-uppercase">Nachricht senden</h2>
-            <h3 class="section-subheading text-muted">Erzählen Sie uns von Ihrem Vorhaben oder Ihrer aktuellen Situation. Wir hören zu und schauen gemeinsam, wie wir Sie unterstützen können.</h3>
-          </div>
+      <h1 class="display-4">{{ pageMeta.title|default('Contact Us') }}</h1>
+      <p class="lead">{{ pageMeta.description|default('Get in touch with us') }}</p>
+    </div>
+  </header>
+{% endblock %}
 
-          {# Status alerts handled by JS #}
-          <div id="contact-success" class="alert alert-success mb-3 visually-hidden d-none" role="alert"></div>
-          <div id="contact-error" class="alert alert-danger mb-3 visually-hidden d-none" role="alert"></div>
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      {# Status alerts handled by JS #}
+      <div id="contact-success" class="alert alert-success mb-3 d-none" role="alert"></div>
+      <div id="contact-error" class="alert alert-danger mb-3 d-none" role="alert"></div>
 
-          {{ form_start(form, { action: path('app_contact'), attr: { class: 'vstack gap-3 mt-3', novalidate: 'novalidate', 'data-turbo': 'false' } }) }}
+      {{ form_start(form, { action: path('web_base_api_contact'), attr: { class: 'vstack gap-3', novalidate: 'novalidate' } }) }}
 
-          <div class="mb-3">
-            {{ form_label(form.name, null, { label_attr: { class: 'form-label' } }) }}
-            {{ form_widget(form.name, { attr: { class: (form.name.vars.errors|length) > 0 ? 'form-control is-invalid' : 'form-control' } }) }}
-            {% for error in form.name.vars.errors %}
-              <div class="invalid-feedback d-block">
-                {{ error.message }}
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="mb-3">
-            {{ form_label(form.email, null, { label_attr: { class: 'form-label' } }) }}
-            {{ form_widget(form.email, { attr: { class: (form.email.vars.errors|length) > 0 ? 'form-control is-invalid' : 'form-control' } }) }}
-            {% for error in form.email.vars.errors %}
-              <div class="invalid-feedback d-block">
-                {{ error.message }}
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="mb-3">
-            {{ form_label(form.phone, null, { label_attr: { class: 'form-label' } }) }}
-            {{ form_widget(form.phone, { attr: { class: (form.phone.vars.errors|length) > 0 ? 'form-control is-invalid' : 'form-control' } }) }}
-            {% for error in form.phone.vars.errors %}
-              <div class="invalid-feedback d-block">
-                {{ error.message }}
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="mb-3">
-            {{ form_label(form.message, null, { label_attr: { class: 'form-label' } }) }}
-            {{ form_widget(form.message, { attr: { class: (form.message.vars.errors|length) > 0 ? 'form-control is-invalid' : 'form-control' } }) }}
-            {% for error in form.message.vars.errors %}
-              <div class="invalid-feedback d-block">
-                {{ error.message }}
-              </div>
-            {% endfor %}
-          </div>
-
-          {# Honeypots (visually hidden) #}
-          <div style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
-            {{ form_row(form.website) }}
-            {{ form_row(form.emailrep) }}
-          </div>
-
-          <div class="mb-3">
-            {{ form_widget(form.consent, { attr: { class: (form.consent.vars.errors|length) > 0 ? 'form-check-input is-invalid' : 'form-check-input' } }) }}
-            {{ form_label(form.consent, null, { label_attr: { class: 'form-check-label' } }) }}
-            {% for error in form.consent.vars.errors %}
-              <div class="invalid-feedback d-block">
-                {{ error.message }}
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="d-flex flex-wrap gap-2">
-            {# Extra input submit to ensure tests find a button by value 'Absenden' in all rendering modes #}
-            <input type="submit" value="Absenden" style="display:none;" />
-            <button type="submit" class="btn btn-primary">Absenden</button>
-            <span class="btn btn-cta contact-whatsapp">Über WhatsApp kontaktieren</span>
-          </div>
-
-          {{ form_rest(form) }}
-          {{ form_end(form) }}
-        </div>
+      <div class="mb-3">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, { attr: { class: 'form-control' } }) }}
+        {{ form_errors(form.name) }}
       </div>
-      <div class="row justify-content-center mt-5">
-        <div class="col-lg-8">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title"><i class="fas fa-info-circle me-2"></i>Datenschutz</h4>
-              <p class="card-text">
-                Ihre Angaben werden ausschließlich zur Bearbeitung Ihrer Anfrage verwendet und anschließend gelöscht. Weitere Informationen finden Sie in unserer <a href="{{ path('app_page', { slug: 'datenschutz' }) }}">Datenschutzerklärung</a>.
-              </p>
-            </div>
-          </div>
+
+      <div class="mb-3">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email, { attr: { class: 'form-control' } }) }}
+        {{ form_errors(form.email) }}
+      </div>
+
+      <div class="mb-3">
+        {{ form_label(form.phone) }}
+        {{ form_widget(form.phone, { attr: { class: 'form-control' } }) }}
+        {{ form_errors(form.phone) }}
+      </div>
+
+      <div class="mb-3">
+        {{ form_label(form.message) }}
+        {{ form_widget(form.message, { attr: { class: 'form-control', rows: 5 } }) }}
+        {{ form_errors(form.message) }}
+      </div>
+
+      {# Honeypots (visually hidden) #}
+      <div class="visually-hidden" aria-hidden="true">
+        {{ form_row(form.website) }}
+        {{ form_row(form.emailrep) }}
+      </div>
+
+      <div class="mb-3 form-check">
+        {{ form_widget(form.consent, { attr: { class: 'form-check-input' } }) }}
+        {{ form_label(form.consent, null, { label_attr: { class: 'form-check-label' } }) }}
+        {{ form_errors(form.consent) }}
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </div>
+
+      {{ form_rest(form) }}
+      {{ form_end(form) }}
+
+      {# Privacy Notice #}
+      <div class="card mt-4">
+        <div class="card-body">
+          <h5 class="card-title">
+            <i class="fas fa-info-circle me-2"></i>Privacy
+          </h5>
+          <p class="card-text small">
+            Your data will be used exclusively to process your request and will be deleted afterwards.
+            For more information, please see our
+            <a href="{{ path('web_base_page', { slug: 'datenschutz' }) }}">Privacy Policy</a>.
+          </p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 {% endblock %}

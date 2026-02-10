@@ -1,0 +1,5 @@
+# Bundle routes are loaded with lower priority so project can override them
+net_idea_web_base:
+  resource: '../src/Controller/'
+  type: attribute
+  prefix: ''

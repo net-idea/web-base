@@ -1,7 +1,7 @@
 {
   "name": "net-idea/web-base",
-  "description": "Shared library for Symfony-based websites - reusable backend and frontend code",
-  "type": "library",
+  "description": "Reusable Symfony bundle for website fundamentals - controllers, services, templates, and frontend assets",
+  "type": "symfony-bundle",
   "license": "MIT",
   "authors": [
     {
@@ -12,19 +12,21 @@
   "homepage": "https://github.com/net-idea/web-base",
   "keywords": [
     "symfony",
-    "library",
+    "bundle",
     "reusable",
     "web",
     "bootstrap",
     "twig"
   ],
   "require": {
-    "php": ">=8.2"
+    "php": ">=8.2",
+    "symfony/framework-bundle": "^6.4|^7.0|^8.0",
+    "symfony/twig-bundle": "^6.4|^7.0|^8.0"
   },
   "suggest": {
-    "symfony/framework-bundle": "For using the Symfony components",
     "doctrine/orm": "For using the entity classes",
-    "symfony/mailer": "For using the mail service"
+    "symfony/mailer": "For using the mail service",
+    "erusev/parsedown": "For Markdown content rendering"
   },
   "autoload": {
     "psr-4": {
