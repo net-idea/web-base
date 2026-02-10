@@ -1,47 +1,156 @@
 /* ============================================================================
-   WebBase - Form Styles
+   NetIdea WebBase Bundle - Forms System
+   Main forms file that imports light and dark variants
    ============================================================================ */
 
+// Import form variants
+@import 'forms-light';
+@import 'forms-dark';
+
 // ============================================================================
-// Form Controls
+// Base Form Styles (theme-independent)
 // ============================================================================
+
+// Form labels
+.form-label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+// Form controls base
 .form-control,
 .form-select {
-  border-radius: $form-control-border-radius;
-  padding: $form-control-padding;
-  font-size: $form-control-font-size;
-  transition: $form-control-transition;
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-clip: padding-box;
+  border: 1px solid $input-border-color;
+  border-radius: $border-radius;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
   &:focus {
     outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
+  }
+
+  &::placeholder {
+    opacity: 0.5;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 }
 
-.form-label {
-  margin-bottom: $form-label-margin-bottom;
-  font-weight: $form-label-font-weight;
+// Textarea specific
+textarea.form-control {
+  min-height: calc(1.5em + 0.75rem + 2px);
+  resize: vertical;
 }
 
-.form-group {
-  margin-bottom: $form-group-margin-bottom;
-}
-
-// ============================================================================
-// Form Validation
-// ============================================================================
-.was-validated .form-control:valid,
-.form-control.is-valid {
-  border-color: var(--bs-success);
-}
-
-.was-validated .form-control:invalid,
-.form-control.is-invalid {
-  border-color: var(--bs-danger);
-}
-
-.invalid-feedback,
-.valid-feedback {
+// Form check (checkboxes and radios)
+.form-check {
   display: block;
-  margin-top: $form-feedback-margin-top;
-  font-size: $form-feedback-font-size;
+  min-height: 1.5rem;
+  padding-left: 1.5em;
+  margin-bottom: 0.125rem;
+}
+
+.form-check-input {
+  width: 1em;
+  height: 1em;
+  margin-top: 0.25em;
+  vertical-align: top;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 0.25em;
+  cursor: pointer;
+
+  &:checked {
+    background-color: $primary;
+    border-color: $primary;
+  }
+
+  &:focus {
+    border-color: $input-focus-border-color;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
+  }
+}
+
+.form-check-label {
+  cursor: pointer;
+}
+
+// Form validation
+.is-invalid {
+  border-color: $danger;
+
+  &:focus {
+    border-color: $danger;
+    box-shadow: 0 0 0 0.25rem rgba($danger, 0.25);
+  }
+}
+
+.invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: $danger;
+
+  &.d-block {
+    display: block;
+  }
+}
+
+.is-invalid ~ .invalid-feedback {
+  display: block;
+}
+
+// Visually hidden honeypot
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Form grid
+.vstack {
+  display: flex;
+  flex-direction: column;
+
+  &.gap-3 > * + * {
+    margin-top: 1rem;
+  }
+}
+
+// Alert messages (for form feedback)
+.alert {
+  position: relative;
+  padding: 1rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+
+  &.alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+  }
+
+  &.alert-danger {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+  }
 }

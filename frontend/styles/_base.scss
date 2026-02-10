@@ -1,88 +1,160 @@
 /* ============================================================================
-   WebBase - Base Styles
+   NetIdea WebBase Bundle - Base Styles (White Label)
+   Basic element styling, spacing, typography, layout
    ============================================================================ */
 
 // ============================================================================
-// HTML & Body
+// Global Reset & Base
 // ============================================================================
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: $scroll-padding-top;
-}
-
 body {
-  position: relative;
+  margin: 0;
+  padding-top: 0;
 }
 
 // ============================================================================
-// Layout Components
+// Masthead/Header Base
 // ============================================================================
+.masthead {
+  position: relative;
+  padding: 4rem 0;
+  text-align: center;
+  background-color: $masthead-bg;
+  color: $masthead-text-color;
 
-.page-section-card {
-  border: 1px solid rgb(0 0 0 / 10%);
-  border-radius: var(--bs-border-radius-lg, #{$border-radius-lg});
-  background: rgb(255 255 255 / 78%);
-  backdrop-filter: blur(12px) saturate(140%);
-  box-shadow: 0 10px 30px rgb(0 0 0 / 6%);
+  @media (min-width: 768px) {
+    padding: 6rem 0;
+  }
 
-  // Better contrast in dark mode
-  [data-bs-theme='dark'] & {
-    border-color: rgb(255 255 255 / 12%);
-    background: rgb(35 39 42 / 65%);
-    box-shadow: 0 12px 36px rgb(0 0 0 / 45%);
+  @media (min-width: 992px) {
+    padding: 8rem 0;
+  }
+
+  h1,
+  .display-4 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+
+  .masthead-subheading {
+    font-size: 1.5rem;
+    font-style: italic;
+    line-height: 1.5rem;
+    margin-bottom: 25px;
+    font-family: $font-family-base;
+  }
+
+  .masthead-heading {
+    font-size: 3.25rem;
+    font-weight: 700;
+    line-height: 3.25rem;
+    margin-bottom: 2rem;
+    font-family: $font-family-base;
   }
 }
 
-.section-kicker {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 800;
-  font-size: 0.85rem;
-  color: rgb(0 128 0 / 92%);
-  margin-bottom: 0.5rem;
+// ============================================================================
+// Navigation Base
+// ============================================================================
+.navbar {
+  position: relative;
+  transition: padding 0.3s ease;
+
+  &.navbar-shrink {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar-brand {
+    img {
+      max-height: 40px;
+      width: auto;
+    }
+  }
 }
 
-// Feature list on homepage (Font Awesome circle-check alignment)
-.feature-list {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
+// ============================================================================
+// Footer Base
+// ============================================================================
+.footer {
+  margin-top: auto;
 
-  li {
-    display: grid;
-    grid-template-columns: 1.35rem 1fr;
-    column-gap: 0.6rem;
-    align-items: start;
-    margin-bottom: 0.65rem;
+  a {
+    transition: color 0.15s ease-in-out;
 
-    &:last-child {
-      margin-bottom: 0;
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+// ============================================================================
+// Cards Base
+// ============================================================================
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+}
+
+// ============================================================================
+// Buttons Extensions
+// ============================================================================
+.btn-xl {
+  padding: 1.25rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// ============================================================================
+// Utility Classes
+// ============================================================================
+.text-shadow {
+  text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
+}
+
+.bg-gradient {
+  background: linear-gradient(135deg, $primary 0%, darken($primary, 15%) 100%);
+}
+
+// ============================================================================
+// Spacing Helpers (extend Bootstrap)
+// ============================================================================
+.vstack {
+  display: flex;
+  flex-direction: column;
+}
+
+// ============================================================================
+// Mobile Responsive Adjustments
+// ============================================================================
+@media (max-width: 767.98px) {
+  .masthead {
+    padding: 3rem 0;
+
+    .masthead-heading {
+      font-size: 2rem;
+      line-height: 2rem;
+    }
+
+    .masthead-subheading {
+      font-size: 1.25rem;
+      line-height: 1.25rem;
     }
   }
 
-  i.fa-circle-check {
-    font-size: 1.1rem;
-    line-height: 1;
-    margin-top: 0.22em; // aligns with cap-height of text
-    color: var(--bs-success);
-    flex: 0 0 auto;
-  }
-
-  span {
-    min-width: 0;
-  }
-}
-
-.media-block {
-  border-radius: var(--bs-border-radius-lg, #{$border-radius-lg});
-  overflow: hidden;
-  display: flex;
-  align-items: stretch;
-
-  img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
+  .btn-xl {
+    padding: 1rem 2rem;
+    font-size: 1rem;
   }
 }

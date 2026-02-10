@@ -14,7 +14,7 @@ class MainController extends AbstractBaseController
     {
     }
 
-    #[Route(path: '/', name: 'app_index', methods: ['GET'])]
+    #[Route(path: '/', name: 'web_base_index', methods: ['GET'], priority: -100)]
     public function main(): Response
     {
         return $this->page('index');
@@ -23,10 +23,10 @@ class MainController extends AbstractBaseController
     #[
         Route(
             path: '/{slug}',
-            name: 'app_page',
+            name: 'web_base_page',
             requirements: ['slug' => '[a-z0-9\-]*'],
             methods: ['GET'],
-            priority: -10,
+            priority: -100,
         ),
     ]
     public function page(string $slug = 'index'): Response

@@ -1,7 +1,71 @@
 /* ============================================================================
-   WebBase - Form Styles
+   NetIdea WebBase Bundle - Forms Light Theme
+   Form colors and styles for light mode
    ============================================================================ */
 
 [data-bs-theme='light'] {
-  // Forms - Light Theme
+  .form-control,
+  .form-select {
+    background-color: #ffffff;
+    border-color: #ced4da;
+    color: #212529;
+
+    &:focus {
+      background-color: #ffffff;
+      border-color: #86b7fe;
+      color: #212529;
+    }
+
+    &::placeholder {
+      color: #6c757d;
+    }
+
+    &:disabled {
+      background-color: #e9ecef;
+      color: #6c757d;
+    }
+  }
+
+  .form-check-input {
+    background-color: #ffffff;
+    border-color: rgba(0, 0, 0, 0.25);
+
+    &:checked {
+      background-color: $primary;
+      border-color: $primary;
+    }
+  }
+
+  .form-label {
+    color: #212529;
+  }
+
+  .invalid-feedback {
+    color: #dc3545;
+  }
+
+  .alert {
+    &.alert-success {
+      color: #0f5132;
+      background-color: #d1e7dd;
+      border-color: #badbcc;
+    }
+
+    &.alert-danger {
+      color: #842029;
+      background-color: #f8d7da;
+      border-color: #f5c2c7;
+    }
+  }
+}
+
+// Default light theme
+:root:not([data-bs-theme]),
+:root[data-bs-theme='light'] {
+  .form-control,
+  .form-select {
+    background-color: #ffffff;
+    border-color: #ced4da;
+    color: #212529;
+  }
 }

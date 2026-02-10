@@ -1,29 +1,53 @@
-# Usage Guide
+# NetIdea WebBase Bundle - Usage Guide
 
-This guide provides detailed instructions for integrating the `web-base` library into your Symfony project.
+This comprehensive guide provides detailed instructions for integrating the `NetIdea WebBase Bundle` into your Symfony project. The bundle provides a complete foundation for corporate websites with reusable controllers, services, templates, and frontend assets.
 
 ## Table of Contents
 
 - [Installation](#installation)
-- [Backend Integration](#backend-integration)
-- [Frontend Integration](#frontend-integration)
-- [Configuration Examples](#configuration-examples)
-- [Common Use Cases](#common-use-cases)
+- [Configuration](#configuration)
+- [Controller Usage](#controller-usage)
+- [Template Overriding](#template-overriding)
+- [Content Management](#content-management)
+- [Frontend Assets](#frontend-assets)
+- [Services Reference](#services-reference)
+- [Twig Variables](#twig-variables)
+- [Customization Examples](#customization-examples)
+- [Troubleshooting](#troubleshooting)
+
+---
 
 ## Installation
 
 ### Prerequisites
 
 - PHP 8.2 or higher
+- Symfony 6.4, 7.x, or 8.x
 - Composer
-- Node.js 18+ and Yarn (or npm)
-- Symfony 6.4, 7.0, or 8.0
+- Node.js 18+ and Yarn (for frontend assets)
 
-### Backend Installation
+### Step 1: Add the Bundle
 
-1. Add the library to your Symfony project's `composer.json`:
+**Option A: Local Development (Monorepo)**
+
+If the bundle is in your project under `packages/web-base/`:
 
 ```json
+// composer.json
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "NetIdea\\WebBase\\": "packages/web-base/backend/src/"
+    }
+  }
+}
+```
+
+**Option B: Separate Repository**
+
+```json
+// composer.json
 {
   "repositories": [
     {
@@ -32,62 +56,292 @@ This guide provides detailed instructions for integrating the `web-base` library
     }
   ],
   "require": {
-    "net-idea/web-base": "dev-main"
+    "net-idea/web-base": "^1.0"
   }
 }
 ```
 
-2. Run Composer install:
+### Step 2: Register the Bundle
+
+```php
+// config/bundles.php
+<?php
+
+return [
+    // ... other bundles
+    Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
+    // Register WebBase AFTER TwigBundle
+    NetIdea\WebBase\NetIdeaWebBaseBundle::class => ['all' => true],
+];
+```
+
+### Step 3: Configure Routes
+
+Create `config/routes/web_base.yaml`:
+
+```yaml
+# Load routes from NetIdeaWebBaseBundle
+# These routes have priority: -100 so project routes can override them
+net_idea_web_base:
+  resource: '@NetIdeaWebBaseBundle/config/routes.yaml'
+```
+
+### Step 4: Run Composer
 
 ```bash
-composer install
+composer dump-autoload
+php bin/console cache:clear
 ```
 
-3. Register the namespace in your autoloader (if not automatically detected):
+---
 
-```json
-{
-  "autoload": {
-    "psr-4": {
-      "NetIdea\\WebBase\\": "vendor/net-idea/web-base/backend/src/"
-    }
-  }
-}
+## Configuration
+
+### Bundle Configuration
+
+Create `config/packages/web_base.yaml`:
+
+```yaml
+net_idea_web_base:
+  # Company/Business Information
+  company:
+    name: 'Your Company Name'           # Required: Display name
+    legal_name: 'Your Company GmbH'     # Optional: Legal entity name
+    tagline: 'Your company slogan'      # Optional: Tagline/slogan
+    email: 'info@example.com'           # Contact email
+    phone: '+49 123 456789'             # Phone number
+    fax: null                           # Fax number
+    street: 'Musterstraße 1'            # Street address
+    zip: '12345'                        # Postal code
+    city: 'Musterstadt'                 # City
+    country: 'Deutschland'              # Country
+    vat_id: 'DE123456789'               # VAT ID (USt-IdNr.)
+    tax_number: '123/456/78901'         # Tax number
+    register_court: 'Amtsgericht Köln'  # Register court
+    register_number: 'HRB 12345'        # Register number
+    ceo: 'Max Mustermann'               # CEO/Managing Director
+    responsible_person: 'Max Mustermann' # Responsible person (§55 RStV)
+
+  # Website/Brand Information
+  site:
+    base_url: 'https://example.com'     # Required: Base URL without trailing slash
+    brand_name: 'Your Brand'            # Brand name for display
+    site_name: 'Your Site - Tagline'    # Full site name for meta tags
+    default_description: 'Your default meta description'
+    default_keywords: 'keyword1, keyword2, keyword3'
+    locale: 'de_DE'                     # Locale for Open Graph
+    language: 'de'                      # HTML lang attribute
+
+  # Social Media Links (null = not displayed)
+  social:
+    facebook: 'https://facebook.com/yourpage'
+    instagram: 'https://instagram.com/yourpage'
+    twitter: 'https://twitter.com/yourpage'
+    linkedin: 'https://linkedin.com/company/yourpage'
+    youtube: null
+    github: null
+
+  # Mail Configuration
+  mail:
+    from_address: '%env(string:MAIL_FROM_ADDRESS)%'
+    from_name: '%env(default::string:MAIL_FROM_NAME)%'
+    to_address: '%env(string:MAIL_TO_ADDRESS)%'
+    to_name: '%env(string:MAIL_TO_NAME)%'
+
+  # Content Configuration
+  content:
+    pages_file: '%kernel.project_dir%/content/_pages.php'
+    content_dir: '%kernel.project_dir%/content'
 ```
 
-### Frontend Installation
+### Environment Variables
 
-1. Add the library to your `package.json`:
-
-```json
-{
-  "dependencies": {
-    "@net-idea/web-base": "github:net-idea/web-base"
-  }
-}
-```
-
-2. Run Yarn install:
+Add to your `.env`:
 
 ```bash
-yarn install
+# Mail Configuration
+MAIL_FROM_ADDRESS=no-reply@example.com
+MAIL_FROM_NAME="Your Company"
+MAIL_TO_ADDRESS=contact@example.com
+MAIL_TO_NAME="Contact Team"
 ```
 
-## Backend Integration
+---
 
-### Setting Up Page Metadata
+## Controller Usage
 
-1. Create `content/_pages.php` in your project root:
+### Understanding Controller Priority
+
+Bundle controllers have `priority: -100` on their routes, allowing your project controllers to override them with higher priority (default: 0).
+
+### Option 1: Use Bundle Controllers Directly
+
+If you don't need customization, the bundle controllers work out of the box:
+
+- `GET /` → `MainController::main()` → Renders `index` page
+- `GET /{slug}` → `MainController::page()` → Renders page by slug
+- `GET /kontakt` → `ContactController::contact()` → Renders contact form
+- `POST /api/contact` → `ContactController::contactApi()` → Handles form submission
+
+### Option 2: Extend Bundle Controllers
+
+Create your own controllers that extend the bundle controllers:
 
 ```php
 <?php
+// src/Controller/MainController.php
+
 declare(strict_types=1);
+
+namespace App\Controller;
+
+use NetIdea\WebBase\Controller\MainController as BaseMainController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+
+class MainController extends BaseMainController
+{
+    // Override the index route with higher priority
+    #[Route(path: '/', name: 'app_index', methods: ['GET'])]
+    public function main(): Response
+    {
+        // Add custom logic before calling parent
+        return parent::main();
+    }
+
+    // Override page handling
+    public function page(string $slug = 'index'): Response
+    {
+        // Custom pre-processing
+        if ($slug === 'special-page') {
+            return $this->render('pages/special.html.twig', [
+                'customData' => $this->getSpecialData(),
+            ]);
+        }
+
+        return parent::page($slug);
+    }
+
+    private function getSpecialData(): array
+    {
+        return ['key' => 'value'];
+    }
+}
+```
+
+### Option 3: Create Completely New Controllers
+
+For routes that need completely different behavior:
+
+```php
+<?php
+// src/Controller/ProductController.php
+
+declare(strict_types=1);
+
+namespace App\Controller;
+
+use NetIdea\WebBase\Controller\AbstractBaseController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+
+#[Route('/products')]
+class ProductController extends AbstractBaseController
+{
+    #[Route('/', name: 'app_products')]
+    public function index(): Response
+    {
+        return $this->render('products/index.html.twig', [
+            'pageMeta' => $this->loadPageMetadata('products'),
+        ]);
+    }
+}
+```
+
+---
+
+## Template Overriding
+
+### Template Namespace
+
+Bundle templates are available under the `@NetIdeaWebBase` namespace:
+
+- `@NetIdeaWebBase/base.html.twig`
+- `@NetIdeaWebBase/pages/kontakt.html.twig`
+- `@NetIdeaWebBase/email/contact_owner.html.twig`
+- `@NetIdeaWebBase/_partials/navbar.html.twig`
+
+### Override Strategy
+
+**Priority Order (highest to lowest):**
+
+1. `templates/` (Your project templates)
+2. `templates/bundles/NetIdeaWebBaseBundle/` (Bundle template overrides)
+3. `@NetIdeaWebBase/` (Bundle default templates)
+
+### Override a Bundle Template
+
+To override the base template:
+
+```twig
+{# templates/bundles/NetIdeaWebBaseBundle/base.html.twig #}
+{% extends '@NetIdeaWebBase/base.html.twig' %}
+
+{% block masthead %}
+  {# Your custom masthead #}
+  <header class="my-custom-masthead">
+    <h1>{{ company.name }}</h1>
+    <p>{{ company.tagline }}</p>
+  </header>
+{% endblock %}
+```
+
+### Extend and Customize
+
+```twig
+{# templates/base.html.twig #}
+{% extends '@NetIdeaWebBase/base.html.twig' %}
+
+{# Override SEO defaults from configuration #}
+{% set brandName = site.brand_name %}
+{% set siteName = site.site_name %}
+{% set baseUrl = site.base_url %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  {# Add project-specific styles #}
+  {{ encore_entry_link_tags('custom') }}
+{% endblock %}
+```
+
+### Template Blocks Reference
+
+| Block | Description |
+|-------|-------------|
+| `title` | Page title (inside `<title>` tag) |
+| `stylesheets` | CSS includes |
+| `javascripts` | JavaScript includes |
+| `masthead` | Header/hero section |
+| `body` | Main content wrapper |
+| `content` | Inner content area |
+
+---
+
+## Content Management
+
+### Page Configuration File
+
+Create `content/_pages.php`:
+
+```php
+<?php
+// content/_pages.php
 
 return [
     'start' => [
-        'title' => 'Home - My Website',
-        'description' => 'Welcome to my website',
-        'keywords' => 'web, symfony, home',
+        'title' => 'Home - Your Company',
+        'description' => 'Welcome to Your Company - Your tagline here',
+        'keywords' => 'company, service, product',
         'canonical' => '/',
         'robots' => 'index,follow',
         'og_image' => '/assets/og/home.jpg',
@@ -96,624 +350,435 @@ return [
         'nav_order' => 10,
     ],
     'about' => [
-        'title' => 'About Us - My Website',
-        'description' => 'Learn about our company',
+        'title' => 'About Us - Your Company',
+        'description' => 'Learn more about our company',
         'canonical' => '/about',
         'robots' => 'index,follow',
-        'og_image' => '/assets/og/about.jpg',
         'nav' => true,
         'nav_label' => 'About',
         'nav_order' => 20,
     ],
-    'contact' => [
-        'title' => 'Contact - My Website',
+    'kontakt' => [
+        'title' => 'Contact - Your Company',
         'description' => 'Get in touch with us',
-        'canonical' => '/contact',
-        'robots' => 'index,follow',
-        'og_image' => '/assets/og/contact.jpg',
+        'canonical' => '/kontakt',
         'nav' => true,
         'nav_label' => 'Contact',
-        'nav_order' => 30,
+        'nav_order' => 100,
+    ],
+    'datenschutz' => [
+        'title' => 'Privacy Policy - Your Company',
+        'canonical' => '/datenschutz',
+        'robots' => 'noindex,follow',
+        'nav' => false,
+    ],
+    'impressum' => [
+        'title' => 'Imprint - Your Company',
+        'canonical' => '/impressum',
+        'robots' => 'noindex,follow',
+        'nav' => false,
     ],
 ];
 ```
 
-### Using the Base Controller
+### Content Files
 
-Create a controller extending `AbstractBaseController`:
-
-```php
-<?php
-
-namespace App\Controller;
-
-use NetIdea\WebBase\Controller\AbstractBaseController;
-use NetIdea\WebBase\Service\NavigationService;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-
-class PageController extends AbstractBaseController
-{
-    public function __construct(
-        private NavigationService $navigationService
-    ) {
-    }
-
-    #[Route('/', name: 'home')]
-    public function home(): Response
-    {
-        return $this->page('start');
-    }
-
-    #[Route('/{slug}', name: 'page', priority: -1)]
-    public function page(string $slug = 'start'): Response
-    {
-        $pageMeta = $this->loadPageMetadata($slug);
-        $navItems = $this->navigationService->getItems();
-
-        return $this->render('pages/content.html.twig', [
-            'slug' => $slug,
-            'pageMeta' => $pageMeta,
-            'navItems' => $navItems,
-        ]);
-    }
-}
-```
-
-### Using the Form Service
-
-Create a custom form service:
-
-```php
-<?php
-
-namespace App\Service;
-
-use App\Entity\ContactForm;
-use App\Form\ContactFormType;
-use NetIdea\WebBase\Service\AbstractFormService;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-class ContactFormService extends AbstractFormService
-{
-    private FormInterface $form;
-
-    public function __construct(
-        private FormFactoryInterface $formFactory,
-        private LoggerInterface $logger,
-        private RequestStack $requestStack,
-        private UrlGeneratorInterface $urls,
-    ) {
-        $this->form = $this->formFactory->create(ContactFormType::class);
-    }
-
-    public function getForm(): FormInterface
-    {
-        return $this->form;
-    }
-
-    public function handleContactSubmission(): ?array
-    {
-        $result = $this->handleFormRequest($this->requestStack);
-
-        if (!$result) {
-            return null;
-        }
-
-        [$request, $form, $session] = $result;
-
-        // Check honeypot field
-        if ('' !== $this->getHoneypotValue($form, 'emailrep')) {
-            $this->logger->warning('Contact form honeypot triggered');
-            return ['success' => false, 'error' => 'spam'];
-        }
-
-        // Rate limiting
-        $rateCheck = $this->rateLimitCheck(
-            $session,
-            'contact_form',
-            self::RATE_MIN_INTERVAL_SECONDS,
-            self::RATE_MAX_PER_WINDOW
-        );
-
-        if ($rateCheck['blocked']) {
-            $this->logger->warning('Contact form rate limit exceeded');
-            return ['success' => false, 'error' => 'rate_limit'];
-        }
-
-        // Validate form
-        if (!$form->isValid()) {
-            return ['success' => false, 'error' => 'validation'];
-        }
-
-        // Process the form data
-        $data = $form->getData();
-
-        // Save to database, send email, etc.
-
-        // Update rate limit
-        $this->rateLimitTick($session, 'contact_form', $rateCheck['times'], $rateCheck['now']);
-
-        return ['success' => true];
-    }
-}
-```
-
-### Using the Mail Service
-
-Configure the mail service in `config/services.yaml`:
-
-```yaml
-services:
-  NetIdea\WebBase\Service\MailManService:
-    arguments:
-      $fromAddress: '%env(MAIL_FROM_ADDRESS)%'
-      $fromName: '%env(MAIL_FROM_NAME)%'
-      $toAddress: '%env(MAIL_TO_ADDRESS)%'
-      $toName: '%env(MAIL_TO_NAME)%'
-```
-
-Add environment variables to `.env`:
-
-```env
-MAIL_FROM_ADDRESS=no-reply@example.com
-MAIL_FROM_NAME="My Website"
-MAIL_TO_ADDRESS=contact@example.com
-MAIL_TO_NAME="Contact Form"
-```
-
-Use the service in your controller:
-
-```php
-<?php
-
-namespace App\Controller;
-
-use NetIdea\WebBase\Service\MailManService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-class ContactController extends AbstractController
-{
-    public function __construct(
-        private MailManService $mailService
-    ) {
-    }
-
-    public function sendContactEmail(ContactForm $contact): void
-    {
-        $this->mailService->sendTemplatedEmail(
-            to: $this->mailService->getToAddress(),
-            subject: 'New Contact Form Submission',
-            textTemplate: 'email/contact.txt.twig',
-            htmlTemplate: 'email/contact.html.twig',
-            context: [
-                'contact' => $contact,
-            ],
-            replyTo: $contact->getEmailAddress()
-        );
-    }
-}
-```
-
-### Using Base Templates
-
-Copy the base templates to your project or extend them:
+**Twig Templates** (Priority 1):
+Place in `templates/pages/{slug}.html.twig`
 
 ```twig
-{# templates/base.html.twig #}
-{% extends '@WebBase/base.html.twig' %}
+{# templates/pages/about.html.twig #}
+{% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {# Add your custom styles here #}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {# Add your custom scripts here #}
+{% block content %}
+  <h1>About Us</h1>
+  <p>Our story...</p>
 {% endblock %}
 ```
 
-## Frontend Integration
+**Markdown Files** (Priority 2):
+Place in `content/{slug}.md`
 
-### Webpack Encore Setup
+```markdown
+# About Us
 
-Update your `webpack.config.js`:
+Our company was founded in 2020...
+
+## Our Mission
+
+We strive to...
+```
+
+---
+
+## Frontend Assets
+
+### Webpack Configuration
+
+Add the alias in `webpack.config.js`:
 
 ```javascript
-const Encore = require('@symfony/webpack-encore');
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-Encore.setOutputPath('public/build/')
-  .setPublicPath('/build')
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  // Entry points
-  .addEntry('app', './assets/app.ts')
-
-  // Enable TypeScript
-  .enableTypeScriptLoader()
-
-  // Enable Sass
-  .enableSassLoader()
-
-  // Enable source maps in dev
-  .enableSourceMaps(!Encore.isProduction())
-
-  // Enable versioning in production
-  .enableVersioning(Encore.isProduction())
-
-  // Single runtime chunk
-  .enableSingleRuntimeChunk()
-
-  // Configure Babel
-  .configureBabelPresetEnv((config) => {
-    config.useBuiltIns = 'usage';
-    config.corejs = 3;
-  });
-
-module.exports = Encore.getWebpackConfig();
+Encore
+  // ... other config
+  .addAliases({
+    '@web-base': path.resolve(__dirname, 'packages/web-base/frontend'),
+  })
 ```
 
-### TypeScript Configuration
+### Import Bundle Assets
 
-Create or update `tsconfig.json`:
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM"],
-    "moduleResolution": "node",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
-  },
-  "include": ["assets/**/*", "node_modules/@net-idea/web-base/frontend/**/*"],
-  "exclude": ["node_modules", "public", "var"]
-}
-```
-
-### Main Application Entry
-
-Create `assets/app.ts`:
+In your `assets/app.ts`:
 
 ```typescript
-// Import Bootstrap and Popper
-import 'bootstrap/dist/js/bootstrap.bundle';
+// Import base styles from bundle
+import '@web-base/styles/app.scss';
 
-// Import web-base styles
-import '../node_modules/@net-idea/web-base/frontend/styles/app.scss';
+// Import specific scripts from bundle
+import '@web-base/scripts/navbar-shrink.ts';
+import '@web-base/scripts/theme-toggle.ts';
+import '@web-base/scripts/contact-form.ts';
 
-// Import web-base scripts
-import '../node_modules/@net-idea/web-base/frontend/scripts/theme-toggle';
-import '../node_modules/@net-idea/web-base/frontend/scripts/navbar-shrink';
-import '../node_modules/@net-idea/web-base/frontend/scripts/contact-form';
-
-// Your custom scripts
-import './custom-script';
+// Your project-specific imports
+import './styles/custom.scss';
 ```
 
-### SCSS Customization
-
-Create `assets/styles/app.scss`:
+### Override Bundle Styles
 
 ```scss
-// Import web-base variables (customize before importing)
-@import '~@net-idea/web-base/frontend/styles/variables';
+// assets/styles/custom.scss
 
-// Override variables if needed
-$primary: #007bff;
-$secondary: #6c757d;
+// Override bundle variables before importing
+$primary: #your-color;
+$font-family-base: 'Your Font', sans-serif;
 
-// Import Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// Import bundle base (which uses Bootstrap)
+@import '@web-base/styles/app';
 
-// Import web-base styles
-@import '~@net-idea/web-base/frontend/styles/base';
-@import '~@net-idea/web-base/frontend/styles/theme';
-@import '~@net-idea/web-base/frontend/styles/forms';
-
-// Your custom styles
+// Add your customizations
 .my-custom-class {
   color: $primary;
 }
 ```
 
-## Common Use Cases
+### Available Frontend Scripts
 
-### Creating a Contact Form
+| Script | Description |
+|--------|-------------|
+| `navbar-shrink.ts` | Shrinks navbar on scroll |
+| `theme-toggle.ts` | Dark/light mode toggle |
+| `contact-form.ts` | AJAX contact form handling |
+| `contacts.ts` | Contact information utilities |
 
-1. Create the entity:
+---
 
-```php
-<?php
+## Services Reference
 
-namespace App\Entity;
+### NavigationService
 
-use NetIdea\WebBase\Entity\FormContactEntity as BaseFormContactEntity;
-use Doctrine\ORM\Mapping as ORM;
-
-#[ORM\Entity]
-#[ORM\Table(name: 'contact_form')]
-class ContactForm extends BaseFormContactEntity
-{
-    // Add any custom fields here
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private ?string $company = null;
-
-    public function getCompany(): ?string
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?string $company): self
-    {
-        $this->company = $company;
-        return $this;
-    }
-}
-```
-
-2. Create the form type:
+Builds navigation from `content/_pages.php`:
 
 ```php
-<?php
+use NetIdea\WebBase\Service\NavigationService;
 
-namespace App\Form;
-
-use App\Entity\ContactForm;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-class ContactFormType extends AbstractType
+class MyController extends AbstractController
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('name', TextType::class, [
-                'label' => 'Name',
-                'required' => true,
-            ])
-            ->add('emailAddress', EmailType::class, [
-                'label' => 'Email',
-                'required' => true,
-            ])
-            ->add('phone', TelType::class, [
-                'label' => 'Phone',
-                'required' => false,
-            ])
-            ->add('company', TextType::class, [
-                'label' => 'Company',
-                'required' => false,
-            ])
-            ->add('message', TextareaType::class, [
-                'label' => 'Message',
-                'required' => true,
-            ])
-            ->add('consent', CheckboxType::class, [
-                'label' => 'I agree to the privacy policy',
-                'required' => true,
-            ])
-            ->add('copy', CheckboxType::class, [
-                'label' => 'Send me a copy',
-                'required' => false,
-            ])
-            ->add('emailrep', TextType::class, [
-                'label' => false,
-                'required' => false,
-                'mapped' => false,
-                'attr' => ['style' => 'display:none;'],
-            ]);
-    }
+    public function __construct(
+        private readonly NavigationService $navigation,
+    ) {}
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function index(): Response
     {
-        $resolver->setDefaults([
-            'data_class' => ContactForm::class,
+        return $this->render('index.html.twig', [
+            'navItems' => $this->navigation->getItems(),
         ]);
     }
 }
 ```
 
-3. Create the controller:
+### MailManService
+
+Handles email sending:
+
+```php
+use NetIdea\WebBase\Service\MailManService;
+use NetIdea\WebBase\Entity\FormContactEntity;
+
+class MyService
+{
+    public function __construct(
+        private readonly MailManService $mailMan,
+    ) {}
+
+    public function sendContact(FormContactEntity $contact): void
+    {
+        $this->mailMan->sendContactForm($contact);
+    }
+}
+```
+
+### FormContactService
+
+Handles contact form creation and processing:
+
+```php
+use NetIdea\WebBase\Service\FormContactService;
+
+class ContactController
+{
+    public function __construct(
+        private readonly FormContactService $formService,
+    ) {}
+
+    public function show(): Response
+    {
+        $form = $this->formService->getForm();
+        return $this->render('contact.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function submit(): Response
+    {
+        return $this->formService->handleAjax();
+    }
+}
+```
+
+---
+
+## Twig Variables
+
+The bundle provides global Twig variables:
+
+### Company Data
+
+```twig
+{{ company.name }}
+{{ company.email }}
+{{ company.phone }}
+{{ company.street }}
+{{ company.zip }} {{ company.city }}
+{{ company.country }}
+{{ company.vat_id }}
+{{ company.ceo }}
+```
+
+### Site Data
+
+```twig
+{{ site.base_url }}
+{{ site.brand_name }}
+{{ site.site_name }}
+{{ site.default_description }}
+{{ site.locale }}
+{{ site.language }}
+
+{# Shortcuts #}
+{{ brandName }}
+{{ siteName }}
+{{ baseUrl }}
+{{ defaultDescription }}
+{{ defaultKeywords }}
+```
+
+### Social Links
+
+```twig
+{% if social.facebook %}
+  <a href="{{ social.facebook }}">Facebook</a>
+{% endif %}
+{% if social.instagram %}
+  <a href="{{ social.instagram }}">Instagram</a>
+{% endif %}
+```
+
+### Usage Example: Imprint Page
+
+```twig
+{# templates/pages/impressum.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<h1>Impressum</h1>
+
+<h2>Angaben gemäß § 5 TMG</h2>
+<p>
+  {{ company.legal_name|default(company.name) }}<br>
+  {{ company.street }}<br>
+  {{ company.zip }} {{ company.city }}<br>
+  {{ company.country }}
+</p>
+
+<h2>Kontakt</h2>
+<p>
+  {% if company.phone %}Telefon: {{ company.phone }}<br>{% endif %}
+  {% if company.fax %}Fax: {{ company.fax }}<br>{% endif %}
+  E-Mail: {{ company.email }}
+</p>
+
+{% if company.vat_id %}
+<h2>Umsatzsteuer-ID</h2>
+<p>{{ company.vat_id }}</p>
+{% endif %}
+
+{% if company.register_court and company.register_number %}
+<h2>Registereintrag</h2>
+<p>
+  Registergericht: {{ company.register_court }}<br>
+  Registernummer: {{ company.register_number }}
+</p>
+{% endif %}
+
+{% if company.ceo %}
+<h2>Geschäftsführer</h2>
+<p>{{ company.ceo }}</p>
+{% endif %}
+
+{% endblock %}
+```
+
+---
+
+## Customization Examples
+
+### Example 1: Custom Contact Form
 
 ```php
 <?php
+// src/Controller/ContactController.php
 
 namespace App\Controller;
 
-use App\Service\ContactFormService;
-use NetIdea\WebBase\Controller\AbstractBaseController;
+use NetIdea\WebBase\Controller\ContactController as BaseContactController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-class ContactController extends AbstractBaseController
+class ContactController extends BaseContactController
 {
-    public function __construct(
-        private ContactFormService $contactFormService
-    ) {
-    }
-
-    #[Route('/contact', name: 'contact')]
+    #[Route(path: '/contact', name: 'app_contact', methods: ['GET'])]
     public function contact(): Response
     {
-        $form = $this->contactFormService->getForm();
-        $result = $this->contactFormService->handleContactSubmission();
-
-        if ($result && $result['success']) {
-            $this->addFlash('success', 'Thank you! Your message has been sent.');
-            return $this->redirectToRoute('contact');
-        }
-
-        if ($result && !$result['success']) {
-            $this->addFlash('error', 'An error occurred. Please try again.');
-        }
-
-        return $this->render('pages/contact.html.twig', [
-            'form' => $form->createView(),
-            'pageMeta' => $this->loadPageMetadata('contact'),
-        ]);
+        // Use English route instead of German
+        return parent::contact();
     }
 }
 ```
+
+### Example 2: Multi-Language Support
+
+```php
+<?php
+// src/Controller/MainController.php
+
+namespace App\Controller;
+
+use NetIdea\WebBase\Controller\MainController as BaseMainController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+
+class MainController extends BaseMainController
+{
+    #[Route(path: '/{_locale}/', name: 'app_index_localized', 
+            requirements: ['_locale' => 'de|en'], methods: ['GET'])]
+    public function localizedIndex(string $_locale): Response
+    {
+        // Handle localized homepage
+        return $this->page('index');
+    }
+}
+```
+
+### Example 3: Custom Navigation
+
+```php
+<?php
+// src/Service/CustomNavigationService.php
+
+namespace App\Service;
+
+use NetIdea\WebBase\Service\NavigationService;
+
+class CustomNavigationService extends NavigationService
+{
+    public function getItems(): array
+    {
+        $items = parent::getItems();
+        
+        // Add a custom item
+        $items[] = [
+            'slug' => 'external',
+            'label' => 'Shop',
+            'url' => 'https://shop.example.com',
+            'order' => 50,
+        ];
+        
+        // Re-sort
+        usort($items, fn($a, $b) => $a['order'] <=> $b['order']);
+        
+        return $items;
+    }
+}
+```
+
+Register in `services.yaml`:
+
+```yaml
+services:
+  NetIdea\WebBase\Service\NavigationService:
+    class: App\Service\CustomNavigationService
+```
+
+---
 
 ## Troubleshooting
 
-### Templates Not Found
+### Routes Not Found
 
-If you get template not found errors, register the template path in `config/packages/twig.yaml`:
+1. Ensure bundle is registered in `config/bundles.php`
+2. Check `config/routes/web_base.yaml` exists
+3. Clear cache: `php bin/console cache:clear`
+4. Debug routes: `php bin/console debug:router | grep web_base`
 
-```yaml
-twig:
-  paths:
-    '%kernel.project_dir%/vendor/net-idea/web-base/backend/templates': WebBase
-```
+### Templates Not Loading
 
-### Autoloading Issues
+1. Check Twig paths: `php bin/console debug:twig`
+2. Ensure `@NetIdeaWebBase` namespace is registered
+3. Verify template file locations
 
-If classes are not found, run:
+### Services Not Found
 
-```bash
-composer dump-autoload
-```
+1. Run `composer dump-autoload`
+2. Check service container: `php bin/console debug:container NetIdea`
+3. Verify `config/services.yaml` doesn't exclude the bundle namespace
 
-### Frontend Build Errors
+### Configuration Not Applied
 
-If you encounter module resolution errors:
+1. Check YAML syntax in `config/packages/web_base.yaml`
+2. Validate config: `php bin/console debug:config net_idea_web_base`
+3. Clear cache after config changes
 
-```bash
-yarn install --force
-rm -rf node_modules/.cache
-yarn encore dev
-```
+### Frontend Assets Not Building
 
-## Support
+1. Verify webpack alias in `webpack.config.js`
+2. Check path exists: `packages/web-base/frontend/`
+3. Run `yarn install` to ensure dependencies
+4. Check for TypeScript errors: `yarn tsc:check`
 
-For issues, questions, or contributions, please visit:
-https://github.com/net-idea/web-base
+---
 
-## Page Templates
+## For AI Agents
 
-### Content Template (`templates/pages/content.html.twig`)
+When working with this bundle:
 
-Generic template for rendering Markdown content. Use this for static pages loaded from `.md` files.
-
-**Example usage:**
-
-```php
-// In your controller
-public function page(string $slug): Response
-{
-    $pageMeta = $this->loadPageMetadata($slug);
-
-    // Load Markdown content
-    $contentFile = $this->getParameter('kernel.project_dir') . '/content/' . $slug . '.md';
-    $markdown = file_exists($contentFile) ? file_get_contents($contentFile) : '';
-    $parsedown = new \Parsedown();
-    $content = $parsedown->text($markdown);
-
-    return $this->render('@WebBase/pages/content.html.twig', [
-        'pageMeta' => $pageMeta,
-        'content' => $content,
-        'siteName' => 'My Company'
-    ]);
-}
-```
-
-### Contact Form Template (`templates/pages/contact.html.twig`)
-
-Fully configurable contact form template. All text can be customized via the `_pages.php` configuration.
-
-**Configurable parameters in `_pages.php`:**
-
-```php
-'contact' => [
-    'title' => 'Contact Us - My Company',
-    'description' => 'Get in touch with us',
-    // Masthead (hero section)
-    'masthead_subheading' => 'Contact Form',
-    'masthead_heading' => 'We are here for you',
-    'masthead_description' => 'Have questions about our services? Write to us – we will get back to you personally.',
-    // Form section
-    'form_heading' => 'Send a Message',
-    'form_subheading' => 'Tell us about your project or current situation. We listen and look at how we can support you.',
-    // Buttons
-    'submit_button_text' => 'Submit',
-    'show_whatsapp' => false,  // Show WhatsApp button
-    'whatsapp_button_text' => 'Contact via WhatsApp',
-    // Privacy notice
-    'privacy_heading' => 'Privacy',
-    'privacy_text' => 'Your information will be used solely to process your inquiry and will be deleted afterwards.',
-    'privacy_link' => true,  // Show link to privacy policy
-    // Other standard fields
-    'canonical' => '/contact',
-    'robots' => 'index,follow',
-],
-```
-
-**Example controller:**
-
-```php
-use App\Form\ContactFormType;
-use App\Service\ContactFormService;
-use NetIdea\WebBase\Controller\AbstractBaseController;
-
-class ContactController extends AbstractBaseController
-{
-    public function __construct(
-        private ContactFormService $contactFormService
-    ) {}
-
-    #[Route('/contact', name: 'app_contact')]
-    public function contact(): Response
-    {
-        $pageMeta = $this->loadPageMetadata('contact');
-        $form = $this->contactFormService->getForm();
-
-        // Handle form submission
-        $result = $this->contactFormService->handleContactSubmission();
-
-        if ($result && $result['success']) {
-            $this->addFlash('success', 'Thank you! Your message has been sent.');
-            return $this->redirectToRoute('app_contact');
-        }
-
-        return $this->render('@WebBase/pages/contact.html.twig', [
-            'pageMeta' => $pageMeta,
-            'form' => $form->createView(),
-            'siteName' => 'My Company',
-        ]);
-    }
-}
-```
-
-## Example Content Files
-
-The library includes example content files in `backend/content/`:
-
-- `index.md` - Example homepage content
-- `impressum.example.md` - Example imprint/legal page (German)
-- `datenschutz.example.md` - Example privacy policy (German)
-
-Copy these files and customize them for your project:
-
-```bash
-cp vendor/net-idea/web-base/backend/content/index.md content/
-cp vendor/net-idea/web-base/backend/content/impressum.example.md content/impressum.md
-cp vendor/net-idea/web-base/backend/content/datenschutz.example.md content/datenschutz.md
-```
-
-Then edit them with your company-specific information.
+1. **Never modify files in `packages/web-base/`** unless explicitly asked
+2. **Override, don't duplicate** - extend bundle classes instead of copying code
+3. **Use configuration** for company data, never hardcode
+4. **Check route priorities** - bundle routes are -100, project routes are 0
+5. **Template hierarchy** - project templates override bundle templates
+6. **Use `@web-base` alias** for frontend imports
+7. **Validate changes** with `php bin/console cache:clear` and `debug:router`

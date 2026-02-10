@@ -16,7 +16,7 @@ class ContactController extends AbstractBaseController
     ) {
     }
 
-    #[Route(path: '/kontakt', name: 'app_contact', methods: ['GET'])]
+    #[Route(path: '/kontakt', name: 'web_base_contact', methods: ['GET'], priority: -100)]
     public function contact(): Response
     {
         // Get form for rendering
@@ -29,7 +29,7 @@ class ContactController extends AbstractBaseController
         ]);
     }
 
-    #[Route(path: '/api/contact', name: 'api_contact', methods: ['POST'])]
+    #[Route(path: '/api/contact', name: 'web_base_api_contact', methods: ['POST'], priority: -100)]
     public function contactApi(): Response
     {
         return $this->formContactService->handleAjax();

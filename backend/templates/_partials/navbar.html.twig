@@ -1,21 +1,30 @@
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="main-nav">
+{# NetIdea WebBase Bundle - Navigation Bar (White Label)
+   Override in your project: templates/_partials/navbar.html.twig or templates/bundles/NetIdeaWebBaseBundle/_partials/navbar.html.twig
+#}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="mainNav">
   <div class="container">
-    <a class="navbar-brand" href="/"><img src="{{ asset(brandLogo|default('/images/logo.png')) }}" alt="{{ brandName|default('Logo') }}" /></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu <i class="fas fa-bars ms-1"></i></button>
+    <a class="navbar-brand" href="/">
+      {{ brandName|default('Your Brand') }}
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
     <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+      <ul class="navbar-nav ms-auto">
         {% for item in navItems|default([]) %}
-          <li class="nav-item"><a class="nav-link" href="{{ item.url }}">{{ item.label }}</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ item.url }}">{{ item.label }}</a>
+          </li>
         {% endfor %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-adjust"></i></a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="themeDropdown">
-            <li><button class="dropdown-item" type="button" data-theme="light"><i class="fas fa-sun me-2"></i>Hell</button></li>
-            <li><button class="dropdown-item" type="button" data-theme="dark"><i class="fas fa-moon me-2"></i>Dunkel</button></li>
-            <li><button class="dropdown-item" type="button" data-theme="system"><i class="fas fa-desktop me-2"></i>System</button></li>
-          </ul>
-        </li>
       </ul>
+
+      {# Theme Toggle Button #}
+      <button type="button" class="btn btn-link nav-link" id="theme-toggle" aria-label="Toggle theme">
+        <i class="fas fa-sun" id="theme-icon-light"></i>
+        <i class="fas fa-moon" id="theme-icon-dark"></i>
+      </button>
     </div>
   </div>
 </nav>

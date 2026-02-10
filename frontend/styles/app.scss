@@ -1,90 +1,24 @@
 /* ============================================================================
-   WebBase - Main Application Entry Point
-   ============================================================================
+   NetIdea WebBase Bundle - Main Stylesheet (White Label)
+   Override in your project: assets/styles/app.scss
+   ============================================================================ */
 
-   This file only contains configuration and imports.
-   All styles are separated into modular SCSS files.
-*/
-
-// ============================================================================
-// 1. BOOTSTRAP SETUP
-// ============================================================================
-
-// Import Bootstrap's functions first (required for custom variables)
-@import '~bootstrap/scss/functions';
-
-// Import custom variables (must be before Bootstrap variables)
+// 1. Import custom variables first (before Bootstrap)
 @import 'variables';
 
-// Import Bootstrap's variables and maps
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/variables-dark';
+// 2. Import Bootstrap
+@import '~bootstrap/scss/bootstrap';
 
-// Custom theme colors map
-$theme-colors: map-merge(
-  $theme-colors,
-  (
-    'brand-green': $brand-green-primary,
-    'brand-light-green': $brand-green-light,
-  )
-);
+// 3. Import Font Awesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
 
-// Import Bootstrap's mixins and utilities
-@import '~bootstrap/scss/maps';
-@import '~bootstrap/scss/mixins';
-@import '~bootstrap/scss/utilities';
+// 4. Import base styles (spacing, typography, layout)
+@import 'base';
 
-// ============================================================================
-// 2. BOOTSTRAP COMPONENTS
-// ============================================================================
-
-@import '~bootstrap/scss/root';
-@import '~bootstrap/scss/reboot';
-@import '~bootstrap/scss/type';
-@import '~bootstrap/scss/images';
-@import '~bootstrap/scss/containers';
-@import '~bootstrap/scss/grid';
-@import '~bootstrap/scss/tables';
-@import '~bootstrap/scss/forms';
-@import '~bootstrap/scss/buttons';
-@import '~bootstrap/scss/transitions';
-@import '~bootstrap/scss/dropdown';
-@import '~bootstrap/scss/button-group';
-@import '~bootstrap/scss/nav';
-@import '~bootstrap/scss/navbar';
-@import '~bootstrap/scss/card';
-@import '~bootstrap/scss/accordion';
-@import '~bootstrap/scss/breadcrumb';
-@import '~bootstrap/scss/pagination';
-@import '~bootstrap/scss/badge';
-@import '~bootstrap/scss/alert';
-@import '~bootstrap/scss/progress';
-@import '~bootstrap/scss/list-group';
-@import '~bootstrap/scss/close';
-@import '~bootstrap/scss/toasts';
-@import '~bootstrap/scss/modal';
-@import '~bootstrap/scss/tooltip';
-@import '~bootstrap/scss/popover';
-@import '~bootstrap/scss/carousel';
-@import '~bootstrap/scss/spinners';
-@import '~bootstrap/scss/offcanvas';
-@import '~bootstrap/scss/placeholders';
-@import '~bootstrap/scss/helpers';
-@import '~bootstrap/scss/utilities/api';
-
-// ============================================================================
-// 3. WEBBASE CUSTOM STYLES
-// ============================================================================
-
-// Base styles (typography, global styles)
-@import '_base';
-
-// Theme components (navigation, masthead, footer, buttons) - dark and light themes
+// 5. Import theme system (light/dark mode)
 @import 'theme';
-@import 'theme-dark';
-@import 'theme-light';
 
-// Form styles (inputs, validation) - dark and light themes
+// 6. Import form styles (light/dark mode)
 @import 'forms';
-@import 'forms-dark';
-@import 'forms-light';

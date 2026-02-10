@@ -1,141 +1,80 @@
 /* ============================================================================
-   WebBase - SCSS Variables Configuration
+   NetIdea WebBase Bundle - SCSS Variables (White Label)
+   Override these variables in your project's main SCSS file BEFORE importing
    ============================================================================ */
 
 // ============================================================================
-// Brand Colors (Customize these for your project)
+// Brand Colors - Customize for your project
 // ============================================================================
-$brand-green-primary: #008000;
-$brand-green-light: #66b366;
-$brand-green-dark: #060;
-$brand-green-lighter: #85c285;
-$navbar-color: #dee2e6;
-$navbar-color-hover: $brand-green-lighter;
+$primary: #0d6efd !default;
+$secondary: #6c757d !default;
+$success: #198754 !default;
+$info: #0dcaf0 !default;
+$warning: #ffc107 !default;
+$danger: #dc3545 !default;
+$light: #f8f9fa !default;
+$dark: #212529 !default;
 
 // ============================================================================
-// Bootstrap Variable Overrides
+// Bootstrap Configuration
 // ============================================================================
-
-// Primary Colors
-$primary: $brand-green-primary;
-$success: $brand-green-light;
-
-// Container Max Widths (responsive layout)
-// Override Bootstrap's default narrow containers for wider, modern layouts
-$container-max-widths: (
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1400px,
-) !default;
-
-// Enable/Disable Features
-$enable-shadows: false;
-$enable-gradients: false;
+$enable-shadows: false !default;
+$enable-gradients: false !default;
+$enable-rounded: true !default;
 
 // Border Radius
-$border-radius: 0.375rem;
-$border-radius-sm: 0.25rem;
-$border-radius-lg: 0.5rem;
+$border-radius: 0.375rem !default;
+$border-radius-sm: 0.25rem !default;
+$border-radius-lg: 0.5rem !default;
 
 // ============================================================================
-// Typography Variables
+// Typography
 // ============================================================================
+$font-family-sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !default;
+$font-family-base: $font-family-sans-serif !default;
 
-// Font Families (simplified - system fonts as fallback)
-$font-family-primary:
-  'Montserrat',
-  system-ui,
-  -apple-system,
-  sans-serif;
-$font-family-secondary: 'Roboto Slab', georgia, serif;
-
-// Font Sizes
-$font-size-h1: 3.2rem;
-$font-size-h2: 2.2rem;
-$font-size-h3: 1.5rem;
-$font-size-h4: 1.18rem;
-$font-size-base: 1.18rem;
-$line-height-base: 1.8;
-$line-height-heading: 1.18;
+$font-size-base: 1rem !default;
+$line-height-base: 1.5 !default;
 
 // Headings
-$heading-font-weight: 800;
-$heading-color: $brand-green-primary;
-$heading-letter-spacing: -0.01em;
-$heading-margin-top: 0.2rem;
-$heading-margin-bottom: 1.2rem;
-$heading-margin-bottom-small: 0.7rem;
-
-// Text
-$text-color: #23272a;
-$text-color-dark: #f8f9fa;
-$text-max-width: 800px;
-$text-line-height: 1.8;
-$text-font-weight: 400;
+$headings-font-weight: 700 !default;
+$headings-line-height: 1.2 !default;
 
 // ============================================================================
-// Spacing Variables
+// Spacing
 // ============================================================================
-$scroll-padding-top: 4.5rem;
+$spacer: 1rem !default;
 
 // ============================================================================
-// Navigation Variables
+// Components
 // ============================================================================
-$nav-padding-y: 0.5rem;
-$nav-padding-y-lg: 1.5rem;
-$nav-padding-y-shrink: 0.3rem;
-$nav-bg: #212529;
-$nav-logo-height: 2.5rem;
-$nav-logo-height-lg: 4.5rem;
-$nav-logo-height-shrink: 2.2rem;
-$nav-opacity-shrink: 0.9;
-$nav-blur: blur(20px);
-$nav-toggler-padding: 0.75rem;
-$nav-toggler-font-size: 0.75rem;
-$nav-link-font-size: 0.95rem;
-$nav-link-letter-spacing: 0.0625em;
-$nav-item-margin-right: 1rem;
-$nav-transition-speed: 0.3s;
+
+// Navbar
+$navbar-dark-color: rgba(255, 255, 255, 0.85) !default;
+$navbar-dark-hover-color: rgba(255, 255, 255, 1) !default;
+$navbar-dark-active-color: rgba(255, 255, 255, 1) !default;
+
+// Cards
+$card-border-color: rgba(0, 0, 0, 0.125) !default;
+$card-cap-bg: rgba(0, 0, 0, 0.03) !default;
+
+// Forms
+$input-border-color: #ced4da !default;
+$input-focus-border-color: #86b7fe !default;
+
+// Buttons
+$btn-padding-y: 0.375rem !default;
+$btn-padding-x: 0.75rem !default;
+$btn-font-weight: 400 !default;
 
 // ============================================================================
-// Button Variables
+// Custom Variables (not Bootstrap)
 // ============================================================================
-$btn-xl-padding: 1.25rem 2.5rem;
-$btn-xl-font-size: 1.125rem;
-$btn-social-size: 2.5rem;
 
-// ============================================================================
-// Masthead Variables
-// ============================================================================
-$masthead-padding-y: 6.5rem 2rem;
-$masthead-padding-y-md: 10.5rem 6rem;
-$masthead-subheading-font-size: 1.5rem;
-$masthead-subheading-font-size-md: 2.25rem;
-$masthead-subheading-margin-bottom: 25px;
-$masthead-subheading-margin-bottom-md: 2rem;
-$masthead-heading-font-size: 3.25rem;
-$masthead-heading-font-size-md: 4.5rem;
-$masthead-heading-margin-bottom: 2rem;
-$masthead-heading-margin-bottom-md: 4rem;
+// Masthead
+$masthead-bg: $primary !default;
+$masthead-text-color: white !default;
 
-// ============================================================================
-// Footer Variables
-// ============================================================================
-$footer-font-size: 0.9rem;
-
-// ============================================================================
-// Form Variables
-// ============================================================================
-$form-control-border-radius: 0.375rem;
-$form-control-padding: 0.75rem 1rem;
-$form-control-font-size: 1rem;
-$form-control-transition:
-  border-color 0.15s ease-in-out,
-  box-shadow 0.15s ease-in-out;
-$form-label-margin-bottom: 0.5rem;
-$form-label-font-weight: 500;
-$form-group-margin-bottom: 1.5rem;
-$form-feedback-margin-top: 0.25rem;
-$form-feedback-font-size: 0.875rem;
+// Footer
+$footer-bg: $light !default;
+$footer-text-color: $dark !default;
